@@ -1,27 +1,34 @@
-/* This class reads in information from the test problems and stores it in a 2D in array.
-   Array is of length n, where n = num cities, and each list is length 2.
-   city_coords[i][0] is the x-coord of city i and city_coords[i][1] is the y-coord of city i.
+/* This class reads in information from the test problems and stores it in an arraylist of Double arrays.
+   Arraylist is of length n, where n = num cities, and each list is length 2.
+   city_coords.get(i)[0] is the x-coord of city i and city_coords.get(i)[1] is the y-coord of city i.
 */
 
 import java.util.Scanner;
+import java.util.ArrayList;
 import java.io.FileNotFoundException;
 import java.io.File;
 
 public class Reader {
 
-    public int num_cities;
-    public Double[][] city_coords;
+
+    private int num_cities;
+    //private Double[][] city_coords; //used when we had array of array of doubles
+    private ArrayList<Double[]> city_coords = new ArrayList<Double[]>();
+
 
 	public Reader(String file_path){
 		File file = new File(file_path);
-		//Read the file in as a string
+		//read the file in
 		try {	
 			Scanner file_scan = new Scanner(file);
 			while (file_scan.hasNextLine()){
                 String line = file_scan.nextLine();
-                if (line.substring(0, 3).equals("DIM")) { //this line contains number of cities in problem
-                    num_cities = Integer.parseInt(line.substring(12)); //gets number of cities as int
-                    city_coords = new int[num_cities][2];
+                //this line contains number of cities in problem
+                if (line.substring(0, 3).equals("DIM")) {
+                    int index_of_colon = line.indexOf(":");
+                    num_cities = Integer.parseInt(line.substring(index_of_colon + 2)); //gets number of cities as int
+                    //System.out.println(num_cities); //debugging
+                    //city_coords = new Double[num_cities][2]; //used when we had array of array of doubles
                 }
                 else if (line.substring(0, 4).equals("NODE")) {
                     //rest of lines are city coords
@@ -36,18 +43,20 @@ public class Reader {
                         Double x_coord = Double.parseDouble((split_coords[1]));
                         //third number is y_coord
                         Double y_coord = Double.parseDouble((split_coords[2]));
-                        city_coords[city_num][0] = x_coord;
-                        city_coords[city_num][1] = y_coord;
+                        //city_coords[city_num][0] = x_coord; //used when we had array of array of doubles
+                        //city_coords[city_num][1] = y_coord; //used when we had array of array of doubles
+                        Double[] coords = {x_coord, y_coord};
+                        city_coords.add(coords);
                         string_coords = file_scan.nextLine();
                     }
                 }
             }
             // debugging
-            /*
+            
             for (int i = 1; i <= num_cities; i++) { //this loop is for debugging
-                System.out.println("City number: " + i + ": " + city_coords[i-1][0] + ", " + city_coords[i-1][1]);
+                System.out.println("City number " + i + ": " + city_coords.get(i-1)[0] + ", " + city_coords.get(i-1)[1]);
             }
-            */
+            
 		}
 		catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -55,18 +64,18 @@ public class Reader {
     }
     
     //main method for testing Reader functionality
-    /*
+    
     public static void main(String[] args) {
         String file = args[0];
         Reader test = new Reader(file);
     }
-    */
+    
     
     public int get_num_cities() {
-        return num_cities;
+        return city_coords.size();
     }
 
-    public int[][] get_city_coords() {
+    public ArrayList<Double[]> get_city_coords() {
         return city_coords;
     }
 }
