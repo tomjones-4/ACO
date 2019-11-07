@@ -10,10 +10,9 @@ import java.io.File;
 
 public class Reader {
 
-
-    private int num_cities;
+    public static int num_cities;
     //private Double[][] city_coords; //used when we had array of array of doubles
-    private ArrayList<Double[]> city_coords = new ArrayList<Double[]>();
+    public static ArrayList<Double[]> city_coords = new ArrayList<Double[]>();
 
 
 	public Reader(String file_path){
