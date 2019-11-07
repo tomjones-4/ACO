@@ -1,0 +1,1 @@
+/* The ant class handles the many functions and variables of an ant */

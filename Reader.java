@@ -10,7 +10,7 @@ import java.io.File;
 public class Reader {
 
     private int num_cities;
-    private int[][] city_coords;
+    private Double[][] city_coords;
 
 	public Reader(String file_path){
 		File file = new File(file_path);
@@ -33,9 +33,9 @@ public class Reader {
                         //first number is city number, subtract 1 to properly index in city_coords array
                         int city_num = Integer.parseInt(split_coords[0]) - 1;
                         //second number is x_coord, parseDouble since sometimes scientific notation is used
-                        int x_coord = (int) Double.parseDouble((split_coords[1]));
+                        Double x_coord = Double.parseDouble((split_coords[1]));
                         //third number is y_coord
-                        int y_coord = (int) Double.parseDouble((split_coords[2]));
+                        Double y_coord = Double.parseDouble((split_coords[2]));
                         city_coords[city_num][0] = x_coord;
                         city_coords[city_num][1] = y_coord;
                         string_coords = file_scan.nextLine();
