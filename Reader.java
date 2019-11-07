@@ -14,6 +14,7 @@ public class Reader {
     //private Double[][] city_coords; //used when we had array of array of doubles
     public ArrayList<Double[]> city_coords = new ArrayList<Double[]>();
 
+
 	public Reader(String file_path){
 		File file = new File(file_path);
 		//read the file in

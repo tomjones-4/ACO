@@ -72,13 +72,15 @@ public class Runner {
                     DISP_INTERVAL = Integer.parseInt(args[9]);
                 }
             }
-            else {
+            else { //ie COLONY_TYPE equals EAS
                 ELITISM = Double.parseDouble(args[7]);
                 if (args.length > 8) {
                     DISP_INTERVAL = Integer.parseInt(args[8]);
                 }
             }
         }
+        //Command line arguments have been processed.
+
             
     }
 	
