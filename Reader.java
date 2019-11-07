@@ -9,8 +9,8 @@ import java.io.File;
 
 public class Reader {
 
-    private int num_cities;
-    private Double[][] city_coords;
+    public int num_cities;
+    public Double[][] city_coords;
 
 	public Reader(String file_path){
 		File file = new File(file_path);
