@@ -16,10 +16,23 @@ public class Paths {
 				Double y1 = city_cords.get(j).get(1);
 				Double x2 = city_cords.get(i).get(0);
 				Double x1 = city_cords.get(j).get(0);
-				distance = sqrt((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2 - x1));
+				Double distance = sqrt((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2 - x1));
+				city_distances.get(i).set(j, distance); 
 			}
 		}
 
+	}
+
+	public Double get_distance(int city1, int city2){
+		return this.city_distances.get(city1).get(city2);
+	}
+
+	public void update_pheremone(int city1, int city2, Double new_value){
+		this.pheremones.get(city1).set(city2, new_value);
+	}
+
+	public Double get_pheremone(int city1, int city2){
+		return this.pheremones.get(city1).get(city2);
 	}
 
 }
