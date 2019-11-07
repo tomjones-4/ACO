@@ -1,6 +1,6 @@
-/* This class reads in information from the test problems and stores it in a 2D in array.
-   Array is of length n, where n = num cities, and each list is length 2.
-   city_coords[i][0] is the x-coord of city i and city_coords[i][1] is the y-coord of city i.
+/* This class reads in information from the test problems and stores it in an arraylist of Double arrays.
+   Arraylist is of length n, where n = num cities, and each list is length 2.
+   city_coords.get(i)[0] is the x-coord of city i and city_coords.get(i)[1] is the y-coord of city i.
 */
 
 import java.util.Scanner;
@@ -12,7 +12,7 @@ public class Reader {
 
     private int num_cities;
     //private Double[][] city_coords; //used when we had array of array of doubles
-    ArrayList<Double[]> city_coords;
+    private ArrayList<Double[]> city_coords = new ArrayList<Double[]>();
 
 	public Reader(String file_path){
 		File file = new File(file_path);
@@ -43,10 +43,7 @@ public class Reader {
                         Double y_coord = Double.parseDouble((split_coords[2]));
                         //city_coords[city_num][0] = x_coord; //used when we had array of array of doubles
                         //city_coords[city_num][1] = y_coord; //used when we had array of array of doubles
-                        //Double[] coords = {x_coord, y_coord};
-                        Double[] coords = new Double[2];
-                        coords[0] = x_coord;
-                        coords[1] = y_coord;
+                        Double[] coords = {x_coord, y_coord};
                         city_coords.add(coords);
                         string_coords = file_scan.nextLine();
                     }
@@ -73,7 +70,7 @@ public class Reader {
     
     
     public int get_num_cities() {
-        return num_cities;
+        return city_coords.size();
     }
 
     public ArrayList<Double[]> get_city_coords() {
