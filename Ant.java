@@ -17,7 +17,7 @@ public class Ant {
 		path.add(current_city);
 	}
 
-	private int choose(double[] p_vector) {
+	private void choose(double[] p_vector) {
 		p_vector = this.create_p_vector();
 		double chance = this.rand.nextDouble();
 		double summer = p_vector[0];
@@ -26,7 +26,9 @@ public class Ant {
 			index++;
 			summer += p_vector[index];
 		}
-		return index;	
+		current_city = index;
+		path.add(current_city);
+
 	}
 
 	private double[] create_p_vector() {
