@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Paths {
 
-	public Double[][] city_distances;
+	public static Double[][] city_distances;
 	public Double[][] pheremones;
 
 	public Paths(ArrayList<Double[]> city_coords){

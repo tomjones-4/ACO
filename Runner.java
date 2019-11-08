@@ -7,7 +7,7 @@ public class Runner {
     public static String problem_file;
     public static Reader problem_reader;
 
-    public static string COLONY_TYPE;
+    public static String COLONY_TYPE;
     public static int NUM_ANTS;
     public static int NUM_ITS;
     public static double PHER_POWER;
@@ -19,6 +19,7 @@ public class Runner {
     public static double DISP_INTERVAL;
 
     public static double ELITISM;
+    public static Paths PATHS;
 
     private static void print_help () {
         System.out.println();
@@ -52,11 +53,11 @@ public class Runner {
     }
     public static void main (String[] args) {
 
-	    // process command line arguments
+	    /*The following block of code assigns the users command line inputs to the appropriate
+        constants.  */
 	    if (args.length != 9 && args.length != 8 && args.length != 10) {
             print_help();
 	    }
-		
 	    else {
             COLONY_TYPE = args[1];
             NUM_ANTS = Integer.parseInt(args[2]);
@@ -79,7 +80,14 @@ public class Runner {
                 }
             }
         }
-        //Command line arguments have been processed.
+
+
+        /*The following block of code sets up the paths, reader, and ants.*/
+        problem_reader = new Reader(problem_file);
+        PATHS = new Paths(Reader.city_coords);
+
+
+
 
             
     }
