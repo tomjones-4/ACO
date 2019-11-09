@@ -1,24 +1,44 @@
 /* The ant class handles the many functions and variables of an ant */
-import java.util.BitSet;
 import java.util.*;
 import java.io.*;
+import javafx.util.Pair;
 
 public class Ant {
-
-	//represent unvisited cities as a bitset. if a city is unvisited, it is a zero (all cities start as zeros)
-	//then once it is visited it becomes a one.
 	public ArrayList<Integer> path = new ArrayList<Integer>();
 	private int current_city;
 	private Random rand = new Random();
-
 
 	public Ant() {
 		current_city = rand.nextInt(Reader.num_cities);
 		path.add(current_city);
 	}
 
-	private void choose(double[] p_vector) {
-		p_vector = this.create_p_vector();
+	/* Returns a pair with two values; a double with the total distance of the path and an array list of integers
+	which is the path. */
+	public Pair <Double, ArrayList<Integer>> tour() {
+		for(int i=0; i < Reader.num_cities -1; i++) {
+			this.choose();
+		}
+		this.return_to_start();
+		//for debugguing
+		System.out.println(this.path);
+
+		double distance = 0;
+		for(int i=0; i < path.size()-1; i++) {
+			distance += Runner.PATHS.city_distances[i][i+1];
+		}
+		Pair<Double, ArrayList<Integer>> ans = new Pair<Double, ArrayList<Integer>>(distance, this.path);
+		return ans;
+	}
+
+	private void return_to_start() {
+		int start = path.get(0);
+		path.add(start);
+		current_city = start;
+	}
+
+	private void choose() {
+		double [] p_vector = this.create_p_vector();
 		double chance = this.rand.nextDouble();
 		double summer = p_vector[0];
 		int index = 0;

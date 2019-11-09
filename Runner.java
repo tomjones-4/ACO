@@ -26,7 +26,7 @@ public class Runner {
         System.out.println("If running Ant Colony System:");
         System.out.println("java Runner file type num_ants num_its pher_power heur_power evap_factor wearing_away best_leg");
         System.out.println("    file            = name of the file containing the problem (string)");
-        System.out.println("    colony_type            = Ant Colony System (ACS) or Elitist Ant System (EAS) (String)");
+        System.out.println("    colony_type     = Ant Colony System (ACS) or Elitist Ant System (EAS) (String)");
 	    System.out.println("    num_ants        = number of ants (int)");
 	    System.out.println("    num_its         = number of iterations (int)");
 	    System.out.println("    pher_power      = weight placed on pheremones (double)");
@@ -59,6 +59,7 @@ public class Runner {
             print_help();
 	    }
 	    else {
+            String problem_file = args[0];
             COLONY_TYPE = args[1];
             NUM_ANTS = Integer.parseInt(args[2]);
             NUM_ITS = Integer.parseInt(args[3]);
@@ -82,14 +83,9 @@ public class Runner {
         }
 
 
-        /*The following block of code sets up the paths, reader, and ants.*/
-        problem_reader = new Reader(problem_file);
-        PATHS = new Paths(Reader.city_coords);
-
-
-
-
-            
+        /*The following block of code will set up the paths, reader, and ants.*/
+        Reader problem_reader = new Reader(problem_file);
+        PATHS = new Paths(Reader.city_coords);  
     }
 	
 }
