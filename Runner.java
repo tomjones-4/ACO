@@ -59,7 +59,7 @@ public class Runner {
             print_help();
 	    }
 	    else {
-            String problem_file = args[0];
+            problem_file = args[0];
             COLONY_TYPE = args[1];
             NUM_ANTS = Integer.parseInt(args[2]);
             NUM_ITS = Integer.parseInt(args[3]);
@@ -84,8 +84,10 @@ public class Runner {
 
 
         /*The following block of code will set up the paths, reader, and ants.*/
+        System.out.println(problem_file);
         Reader problem_reader = new Reader(problem_file);
         PATHS = new Paths(Reader.city_coords);  
+        Ant ant_test = new Ant();
     }
 	
 }
