@@ -93,7 +93,15 @@ public class Paths {
 
 			}
 		} 
-		else { //ie Colony type is EACY
+		else { //ie Colony type is EAC
+		/*"In this algorithm, the global best solution deposits pheromone on its trail after 
+		every iteration (even if this trial has not been revisited), along with all the other ants."
+		-Wikipedia
+
+		1) add pheremone to all paths the ants go over.
+		2) add extra pheremone to all paths on the global best.
+		3) reduce pheremones for all paths on the map.
+		*/
 
 		}
 
