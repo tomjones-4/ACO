@@ -28,9 +28,13 @@ public class Ant {
 		for(int i=0; i < path.size()-2; i++) {
 			int current = path.get(i);
 			int next = path.get(i + 1);
-			distance += Runner.PATHS.city_distances[current][next];
+			distance += Runner.PATHS.city_distances[current][next];		
 		}
+		//one possible issue - Runner.PATHS.best_tour will start at zero unless we tell it otherwise in runner (i guess).
 		Pair<Double, ArrayList<Integer>> ans = new Pair<Double, ArrayList<Integer>>(distance, this.path);
+		if(distance < Runner.PATHS.best_tour.getKey()) {
+			Runner.PATHS.best_tour = ans;
+		}
 		return ans;
 	}
 
