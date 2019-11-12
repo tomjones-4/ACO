@@ -84,10 +84,10 @@ public class Runner {
 
 
         /*The following block of code will set up the paths, reader, and ants.*/
-        System.out.println(problem_file);
         Reader problem_reader = new Reader(problem_file);
         PATHS = new Paths(Reader.city_coords);  
         Ant ant_test = new Ant();
+        ant_test.tour();
     }
 	
 }

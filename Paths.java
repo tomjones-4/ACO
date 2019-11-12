@@ -25,6 +25,13 @@ public class Paths {
 				//System.out.println(distance);
 			}
 		}
+		//populate pheremones with all zeroes initially
+		for (int i=0; i < city_coords.size(); i++){
+			for (int j=0; j < city_coords.size(); j ++){
+				pheremones[i][j] = 1.0;
+			}
+		}
+
 
 	}
 

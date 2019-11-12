@@ -52,9 +52,9 @@ public class Reader {
             }
             // debugging
             
-            for (int i = 1; i <= num_cities; i++) { //this loop is for debugging
-                System.out.println("City number " + i + ": " + city_coords.get(i-1)[0] + ", " + city_coords.get(i-1)[1]);
-            }
+            // for (int i = 1; i <= num_cities; i++) { //this loop is for debugging
+            //     System.out.println("City number " + i + ": " + city_coords.get(i-1)[0] + ", " + city_coords.get(i-1)[1]);
+            // }
             
 		}
 		catch (FileNotFoundException e) {
