@@ -1,6 +1,8 @@
 /* Copied Runner.java over from GA/PBIL project because I figured this
    would be a good starting point.
 */
+import javafx.util.Pair;
+import java.util.*;
 
 public class Runner {
     
@@ -87,7 +89,9 @@ public class Runner {
         Reader problem_reader = new Reader(problem_file);
         PATHS = new Paths(Reader.city_coords);  
         Ant ant_test = new Ant();
-        ant_test.tour();
+        Pair <Double, ArrayList<Integer>> test_print = ant_test.tour();
+        System.out.println(test_print.getKey());
+
     }
 	
 }

@@ -22,11 +22,13 @@ public class Ant {
 		this.return_to_start();
 		
 		//for debugguing
-		System.out.println(this.path);
+		System.out.println(path);
 
 		double distance = 0;
 		for(int i=0; i < path.size()-2; i++) {
-			distance += Runner.PATHS.city_distances[i][i+1];
+			int current = path.get(i);
+			int next = path.get(i + 1);
+			distance += Runner.PATHS.city_distances[current][next];
 		}
 		Pair<Double, ArrayList<Integer>> ans = new Pair<Double, ArrayList<Integer>>(distance, this.path);
 		return ans;
