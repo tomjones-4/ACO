@@ -25,9 +25,9 @@ public class Ant {
 		System.out.println(this.path);
 
 		double distance = 0;
-		// for(int i=0; i < path.size()-1; i++) {
-		// 	distance += Runner.PATHS.city_distances[i][i+1];
-		// }
+		for(int i=0; i < path.size()-2; i++) {
+			distance += Runner.PATHS.city_distances[i][i+1];
+		}
 		Pair<Double, ArrayList<Integer>> ans = new Pair<Double, ArrayList<Integer>>(distance, this.path);
 		return ans;
 	}
