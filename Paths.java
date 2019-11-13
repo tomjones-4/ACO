@@ -2,7 +2,6 @@
 import java.lang.Math;
 import java.util.ArrayList;
 
-import Ant.Tour;
 import javafx.util.Pair;
 
 public class Paths {

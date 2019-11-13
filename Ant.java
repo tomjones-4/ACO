@@ -13,7 +13,7 @@ public class Ant {
 		path.add(current_city);
     }
     
-    /*public class Tour {
+    public static class Tour {
         public Double length;
         public ArrayList<Integer> cities_visited = new ArrayList<Integer>();
 
@@ -35,7 +35,7 @@ public class Ant {
         public ArrayList<Integer> get_cities_visited() {
             return cities_visited;
         }
-    }*/
+    }
 
 	/* Returns a pair with two values; a double with the total distance of the path and an array list of integers
 	which represents the taken path so far. */

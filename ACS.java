@@ -5,7 +5,9 @@ import java.util.ArrayList;
 public class ACS {
 
     //public static Tour best_tour;
-    public static Tour best_tour = new Tour();
+    //public static Tour best_tour = new Tour();
+    //public static Ant test_ant = new Ant();
+    public static Tour best_tour = new Ant.Tour();
     public static ArrayList<Ant> ants = new ArrayList<Ant>();
     public static int NUM_ANTS = Runner.NUM_ANTS;
     public static int NUM_ITS = Runner.NUM_ITS;
