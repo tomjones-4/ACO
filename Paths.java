@@ -1,12 +1,18 @@
 /*This class has two 2d arays, city_distances and pheremones. */
 import java.lang.Math;
 import java.util.ArrayList;
+
+import Ant.Tour;
 import javafx.util.Pair;
 
 public class Paths {
 
+	/* Should we store best_tour in Paths or in ACS or both? If we store it here, we need
+	   to update it here every time we find a new best_tour in ACS.
+	*/
+
 	public static Double[][] city_distances;
-	public Double[][] pheremones;
+	public static Double[][] pheremones;
 	public static Pair<Double, ArrayList<Integer>> best_tour;
 
 	public Paths(ArrayList<Double[]> city_coords){
@@ -26,7 +32,7 @@ public class Paths {
 				//System.out.println(distance);
 			}
 		}
-		//populate pheremones with all zeroes initially
+		//populate pheremones with all ones initially
 		for (int i=0; i < city_coords.size(); i++){
 			for (int j=0; j < city_coords.size(); j ++){
 				pheremones[i][j] = 1.0;
@@ -54,35 +60,48 @@ public class Paths {
 		Δτ(r,s) = { (1/length of global best tour), 	if (r,s) is on global best tour
 				  {  0, 								otherwise
 		*/
+
+		/* Tom's comments
+		   I'm fairly certain there are only two instances to update the pheromones.
+		   There is a local pheromone update and an "offline" pheromone update.
+		   The local update is each ant reduces the amount of pheromone on the paths in
+		   its tour. The "offline" update is the best so far ant adds pheromone to all the
+		   legs in its best so far tour, while pheromone diminishes from paths not in best tour.
+		   The local update occurs after each ant's tour.
+		   The "offline" update occurs at the end of each iteration.
+		   For reference: http://www.scholarpedia.org/article/Ant_colony_optimization#Ant_colony_system
+		*/
 		if (Runner.COLONY_TYPE.equals("ACS")) {
-			//Global
+			//Global/Offline
 			for (int i = 0; i < Runner.problem_reader.city_coords.size(); i++) {
 				for (int j = 0; j < Runner.problem_reader.city_coords.size(); j++) {
-					if ( i != j) { //can't have pheremones leading from a city to itself
-						double first = (1-Runner.WEARING_AWAY) * this.pheremones[i][j]; //(1-wearing.away) * τ(r,s)
+					if (i != j) { //can't have pheremones leading from a city to itself
+						//double first = (1-Runner.WEARING_AWAY) * this.pheremones[i][j]; //(1-wearing.away) * τ(r,s)
+						double first = (1-Runner.EVAP_FACTOR) * pheremones[i][j];
 						double second = 0;
-						int i_index = this.best_tour.getValue().indexOf(i); //where is city i on the best tour
-						if (this.best_tour.getValue().get(i_index+1) == j) { 	/*Does city j come after city i on the best tour?
+						int i_index = best_tour.getValue().indexOf(i); //where is city i on the best tour
+						if (best_tour.getValue().get(i_index+1) == j) { 	/*Does city j come after city i on the best tour?
 							Note: there is no risk of an out of bounds exception because the last city is also the first city,
 							method indexOf(Object o) returns the first occurence.*/
-							second += Runner.WEARING_AWAY * (1/this.best_tour.getKey()); //wearing.away * Δτ(r,s)
+							second += Runner.EVAP_FACTOR * (1/best_tour.getKey()); //wearing.away * Δτ(r,s)
 						} else {
 							second = 0;
 						}
-						this.pheremones[i][j] = first + second;
+						pheremones[i][j] = first + second;
 					}
 				}
 			}
+
 			//Local MAYBE THIS ISSS Supposed to happen after each ant completes its tour? Not sure TBH.
 			for (int i = 0; i < tour_list.get(0).getValue().size(); i++) {
 				ArrayList<Integer> current_path = tour_list.get(i).getValue();
 				for (int j = 0; j < current_path.size()-1; j++) {
 					Integer current_city = current_path.get(j);
-					double first = (1-Runner.EVAP_FACTOR) * this.pheremones[j][j+1];
+					double first = (1-Runner.EVAP_FACTOR) * pheremones[j][j+1];
 					double second = 0;
-					int j_index = this.best_tour.getValue().indexOf(current_city); //index of the current city in the best path.
-					if (this.best_tour.getValue().get(j_index + 1) == current_path.get(j+1)) {
-						second += Runner.EVAP_FACTOR * (1/this.best_tour.getKey());
+					int j_index = best_tour.getValue().indexOf(current_city); //index of the current city in the best path.
+					if (best_tour.getValue().get(j_index + 1) == current_path.get(j+1)) {
+						second += Runner.EVAP_FACTOR * (1/best_tour.getKey());
 					}
 					else {
 						second = 0;
@@ -99,15 +118,44 @@ public class Paths {
 
 	}
 
-	public Double get_distance(int city1, int city2){
+	public static void offline_pheromone_update_ACS() {
+		for (int i = 0; i < Runner.problem_reader.city_coords.size(); i++) {
+			for (int j = 0; j < Runner.problem_reader.city_coords.size(); j++) {
+				if (i != j) { //can't have pheremones leading from a city to itself
+					//double first = (1-Runner.WEARING_AWAY) * this.pheremones[i][j]; //(1-wearing.away) * τ(r,s)
+					double first = (1-Runner.EVAP_FACTOR) * pheremones[i][j];
+					double second = 0;
+					int i_index = best_tour.getValue().indexOf(i); //where is city i on the best tour
+					if (best_tour.getValue().get(i_index+1) == j) { 	/*Does city j come after city i on the best tour?
+						Note: there is no risk of an out of bounds exception because the last city is also the first city,
+						method indexOf(Object o) returns the first occurence.*/
+						second += Runner.EVAP_FACTOR * (1/best_tour.getKey()); //wearing.away * Δτ(r,s)
+					}
+					else {
+						second = 0;
+					}
+					pheremones[i][j] = first + second;
+				}
+			}
+		}
+	}
+
+	public static void local_pheromone_update_ACS(Tour tour) {
+		int start_city = tour.get_cities_visited().get(0);
+		for (int i = 0; i < tour.get_length() - 1; i++) {
+			pheremones[i][i+1] = (1-Runner.WEARING_AWAY) * pheremones[i][i+1] + Runner.WEARING_AWAY * Runner.INITIAL_PHER;
+		}
+	}
+
+	public static Double get_distance(int city1, int city2){
 		return city_distances[city1][city2];
 	}
 
-	public void adjust_pheremone(int city1, int city2, Double new_value){
+	public static void adjust_pheremone(int city1, int city2, Double new_value){
 		pheremones[city1][city2] = new_value;
 	}
 
-	public Double get_pheremone(int city1, int city2){
+	public static Double get_pheremone(int city1, int city2){
 		return pheremones[city1][city2];
 	}
 

@@ -17,6 +17,7 @@ public class Runner {
     public static double EVAP_FACTOR;
 
     public static double WEARING_AWAY;
+    public static double INITIAL_PHER;
     public static double BEST_LEG;
     public static double DISP_INTERVAL;
 
@@ -34,7 +35,8 @@ public class Runner {
 	    System.out.println("    pher_power      = weight placed on pheremones (double)");
 	    System.out.println("    heur_power      = weight placed on heuristic information (double)");
         System.out.println("    evap_factor     = amount of evaporation between iterations (double)");
-	    System.out.println("    wearing_away    = amount ants wear away legs they travel on (double)");
+        System.out.println("    wearing_away    = amount ants wear away legs they travel on (double)");
+        System.out.println("    initial_pher    = initial amount of pheromone on each path between cities (double");
 	    System.out.println("    best_leg        = probability that an ant will choose next leg from best tour (double)");
         System.out.println("    disp (optional) = display interval (int)");
         System.out.println();
@@ -57,7 +59,7 @@ public class Runner {
 
 	    /*The following block of code assigns the users command line inputs to the appropriate
         constants.  */
-	    if (args.length != 9 && args.length != 8 && args.length != 10) {
+	    if (args.length != 9 && args.length != 8 && args.length != 10 && args.length != 11) {
             print_help();
 	    }
 	    else {
@@ -71,9 +73,10 @@ public class Runner {
 
             if (COLONY_TYPE.equals("ACS")){
                 WEARING_AWAY = Double.parseDouble(args[7]);
-                BEST_LEG = Double.parseDouble(args[8]);
-                if (args.length > 9) {
-                    DISP_INTERVAL = Integer.parseInt(args[9]);
+                INITIAL_PHER = Double.parseDouble(args[8]);
+                BEST_LEG = Double.parseDouble(args[9]);
+                if (args.length > 10) {
+                    DISP_INTERVAL = Integer.parseInt(args[10]);
                 }
             }
             else { //ie COLONY_TYPE equals EAS
