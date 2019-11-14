@@ -11,7 +11,6 @@ import java.io.File;
 public class Reader {
 
     public static int num_cities;
-    //private Double[][] city_coords; //used when we had array of array of doubles
     public static ArrayList<Double[]> city_coords = new ArrayList<Double[]>();
 
 
@@ -27,7 +26,6 @@ public class Reader {
                     int index_of_colon = line.indexOf(":");
                     num_cities = Integer.parseInt(line.substring(index_of_colon + 2)); //gets number of cities as int
                     //System.out.println("Num cities in Reader.java: " + num_cities); //debugging
-                    //city_coords = new Double[num_cities][2]; //used when we had array of array of doubles
                 }
                 else if (line.substring(0, 4).equals("NODE")) {
                     //rest of lines are city coords
@@ -35,15 +33,13 @@ public class Reader {
                     //while line is still coords and not end of file (EOF)
                     while (!string_coords.equals("EOF")) {
                         //each line has 3 numbers separated by spaces
-                        String[] split_coords = string_coords.split(" ");
+                        String[] split_coords = string_coords.trim().split("\\s+");
                         //first number is city number, subtract 1 to properly index in city_coords array
                         int city_num = Integer.parseInt(split_coords[0]) - 1;
                         //second number is x_coord, parseDouble since sometimes scientific notation is used
                         Double x_coord = Double.parseDouble((split_coords[1]));
                         //third number is y_coord
                         Double y_coord = Double.parseDouble((split_coords[2]));
-                        //city_coords[city_num][0] = x_coord; //used when we had array of array of doubles
-                        //city_coords[city_num][1] = y_coord; //used when we had array of array of doubles
                         Double[] coords = {x_coord, y_coord};
                         city_coords.add(coords);
                         string_coords = file_scan.nextLine();

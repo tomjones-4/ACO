@@ -13,7 +13,7 @@ public class Paths {
 		city_distances = new Double[city_coords.size()][city_coords.size()];
 		pheremones = new Double[city_coords.size()][city_coords.size()];
 
-		//populate the city_distances with eucleadian distances between city_coords
+		//populate the city_distances with Euclidean distances between city_coords
 		for (int i=0; i < city_coords.size(); i++){
 			for (int j=0; j < city_coords.size(); j ++){
 				Double y2 = city_coords.get(i)[1];
