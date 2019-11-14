@@ -2,17 +2,12 @@
 import java.lang.Math;
 import java.util.ArrayList;
 
-import javafx.util.Pair;
+//import javafx.util.Pair;
 
 public class Paths {
 
-	/* Should we store best_tour in Paths or in ACS or both? If we store it here, we need
-	   to update it here every time we find a new best_tour in ACS.
-	*/
-
 	public static Double[][] city_distances;
 	public static Double[][] pheremones;
-	public static Pair<Double, ArrayList<Integer>> best_tour;
 
 	public Paths(ArrayList<Double[]> city_coords){
 		city_distances = new Double[city_coords.size()][city_coords.size()];
@@ -41,7 +36,7 @@ public class Paths {
 
 	}
 
-	public void update_pheremones(ArrayList<Pair<Double, ArrayList<Integer>>> tour_list) {
+	/*public void update_pheremones(ArrayList<Pair<Double, ArrayList<Integer>>> tour_list) {
 		
 		/* In ACS, three seperate mechanisms update the pheremones between iterations.
 		1)The greatest ant of all times adds pheremones to its paths.
@@ -70,60 +65,12 @@ public class Paths {
 		   The "offline" update occurs at the end of each iteration.
 		   For reference: http://www.scholarpedia.org/article/Ant_colony_optimization#Ant_colony_system
 		*/
-		if (Runner.COLONY_TYPE.equals("ACS")) {
-			//Global/Offline
-			for (int i = 0; i < Runner.problem_reader.city_coords.size(); i++) {
-				for (int j = 0; j < Runner.problem_reader.city_coords.size(); j++) {
-					if (i != j) { //can't have pheremones leading from a city to itself
-						//double first = (1-Runner.WEARING_AWAY) * this.pheremones[i][j]; //(1-wearing.away) * τ(r,s)
-						double first = (1-Runner.EVAP_FACTOR) * pheremones[i][j];
-						double second = 0;
-						int i_index = best_tour.getValue().indexOf(i); //where is city i on the best tour
-						if (best_tour.getValue().get(i_index+1) == j) { 	/*Does city j come after city i on the best tour?
-							Note: there is no risk of an out of bounds exception because the last city is also the first city,
-							method indexOf(Object o) returns the first occurence.*/
-							second += Runner.EVAP_FACTOR * (1/best_tour.getKey()); //wearing.away * Δτ(r,s)
-						} else {
-							second = 0;
-						}
-						pheremones[i][j] = first + second;
-					}
-				}
-			}
+		
 
-			//Local MAYBE THIS ISSS Supposed to happen after each ant completes its tour? Not sure TBH.
-			for (int i = 0; i < tour_list.get(0).getValue().size(); i++) {
-				ArrayList<Integer> current_path = tour_list.get(i).getValue();
-				for (int j = 0; j < current_path.size()-1; j++) {
-					Integer current_city = current_path.get(j);
-					double first = (1-Runner.EVAP_FACTOR) * pheremones[j][j+1];
-					double second = 0;
-					int j_index = best_tour.getValue().indexOf(current_city); //index of the current city in the best path.
-					if (best_tour.getValue().get(j_index + 1) == current_path.get(j+1)) {
-						second += Runner.EVAP_FACTOR * (1/best_tour.getKey());
-					}
-					else {
-						second = 0;
-					}
-					pheremones[j][j+1] = first+second;
 
-				}
+		/*}
 
-			}
-		} 
-		else { //ie Colony type is EAC
-		/*"In this algorithm, the global best solution deposits pheromone on its trail after 
-		every iteration (even if this trial has not been revisited), along with all the other ants."
-		-Wikipedia
-
-		1) add pheremone to all paths the ants go over.
-		2) add extra pheremone to all paths on the global best.
-		3) reduce pheremones for all paths on the map.
-		*/
-
-		}
-
-	}
+	}*/
 
 	public static void offline_pheromone_update_ACS() {
 		for (int i = 0; i < Runner.problem_reader.city_coords.size(); i++) {
@@ -132,11 +79,11 @@ public class Paths {
 					//double first = (1-Runner.WEARING_AWAY) * this.pheremones[i][j]; //(1-wearing.away) * τ(r,s)
 					double first = (1-Runner.EVAP_FACTOR) * pheremones[i][j];
 					double second = 0;
-					int i_index = best_tour.getValue().indexOf(i); //where is city i on the best tour
-					if (best_tour.getValue().get(i_index+1) == j) { 	/*Does city j come after city i on the best tour?
+					int i_index = ACS.best_tour.get_cities_visited().indexOf(i); //where is city i on the best tour
+					if (ACS.best_tour.get_cities_visited().get(i_index+1) == j) { 	/*Does city j come after city i on the best tour?
 						Note: there is no risk of an out of bounds exception because the last city is also the first city,
 						method indexOf(Object o) returns the first occurence.*/
-						second += Runner.EVAP_FACTOR * (1/best_tour.getKey()); //wearing.away * Δτ(r,s)
+						second += Runner.EVAP_FACTOR * (1/ACS.best_tour.get_length()); //wearing.away * Δτ(r,s)
 					}
 					else {
 						second = 0;
@@ -148,9 +95,11 @@ public class Paths {
 	}
 
 	public static void local_pheromone_update_ACS(Tour tour) {
-		int start_city = tour.get_cities_visited().get(0);
-		for (int i = 0; i < tour.get_length() - 1; i++) {
-			pheremones[i][i+1] = (1-Runner.WEARING_AWAY) * pheremones[i][i+1] + Runner.WEARING_AWAY * Runner.INITIAL_PHER;
+		System.out.println("Number of cities in tour: " + tour.get_cities_visited().size());
+		for (int i = 0; i < tour.get_cities_visited().size() - 1; i++) {
+			int current = tour.get_cities_visited().get(i);
+			int next = tour.get_cities_visited().get(i+1);
+			pheremones[current][next] = (1-Runner.WEARING_AWAY) * pheremones[current][next] + Runner.WEARING_AWAY * Runner.INITIAL_PHER;
 		}
 	}
 
@@ -166,10 +115,11 @@ public class Paths {
 		return pheremones[city1][city2];
 	}
 
-	public static void main(String[] args){
+	//debugging
+	/*public static void main(String[] args){
 		String file = args[0];
         Reader test = new Reader(file);
         Paths path_test = new Paths(test.get_city_coords());
-	}
+	}*/
 
 }

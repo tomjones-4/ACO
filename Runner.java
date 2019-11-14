@@ -1,7 +1,7 @@
 /* Copied Runner.java over from GA/PBIL project because I figured this
    would be a good starting point.
 */
-import javafx.util.Pair;
+//import javafx.util.Pair;
 import java.util.*;
 
 public class Runner {
@@ -78,6 +78,12 @@ public class Runner {
                 if (args.length > 10) {
                     DISP_INTERVAL = Integer.parseInt(args[10]);
                 }
+                //read in problem file, so num cities and coordinates are established
+                problem_reader = new Reader(problem_file);
+                //fill in distances and pheromone levels in paths
+                PATHS = new Paths(Reader.get_city_coords());
+                ACS.run_ACS();
+                System.out.println("Best result from ACS: " + ACS.best_tour.get_length());
             }
             else { //ie COLONY_TYPE equals EAS
                 ELITISM = Double.parseDouble(args[7]);
@@ -86,15 +92,6 @@ public class Runner {
                 }
             }
         }
-
-
-        /*The following block of code will set up the paths, reader, and ants.*/
-        Reader problem_reader = new Reader(problem_file);
-        PATHS = new Paths(Reader.city_coords);  
-        Ant ant_test = new Ant();
-        Pair <Double, ArrayList<Integer>> test_print = ant_test.tour();
-        System.out.println(test_print.getKey());
-
     }
 	
 }

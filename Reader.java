@@ -26,7 +26,7 @@ public class Reader {
                 if (line.substring(0, 3).equals("DIM")) {
                     int index_of_colon = line.indexOf(":");
                     num_cities = Integer.parseInt(line.substring(index_of_colon + 2)); //gets number of cities as int
-                    //System.out.println(num_cities); //debugging
+                    //System.out.println("Num cities in Reader.java: " + num_cities); //debugging
                     //city_coords = new Double[num_cities][2]; //used when we had array of array of doubles
                 }
                 else if (line.substring(0, 4).equals("NODE")) {
@@ -62,7 +62,7 @@ public class Reader {
         }
     }
     
-    //main method for testing Reader functionality
+    //main method for testing Reader functionality and debugging
     
     public static void main(String[] args) {
         String file = args[0];
@@ -70,11 +70,11 @@ public class Reader {
     }
     
     
-    public int get_num_cities() {
+    public static int get_num_cities() {
         return city_coords.size();
     }
 
-    public ArrayList<Double[]> get_city_coords() {
+    public static ArrayList<Double[]> get_city_coords() {
         return city_coords;
     }
 }

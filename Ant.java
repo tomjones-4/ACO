@@ -1,7 +1,7 @@
 /* The ant class handles the many functions and variables of an ant */
 import java.util.*;
 import java.io.*;
-import javafx.util.Pair;
+//import javafx.util.Pair;
 
 public class Ant {
 	public ArrayList<Integer> path = new ArrayList<Integer>();
@@ -9,61 +9,13 @@ public class Ant {
 	private Random rand = new Random();
 
 	public Ant() {
+		//System.out.println("Number of cities in Ant.java: " + Reader.num_cities); //debugging
 		current_city = rand.nextInt(Reader.num_cities);
 		path.add(current_city);
     }
     
-    public static class Tour {
-        public Double length;
-        public ArrayList<Integer> cities_visited = new ArrayList<Integer>();
-
-        public Tour(Double length, ArrayList<Integer> cities_visited) {
-            this.length = length;
-            this.cities_visited = cities_visited;
-        }
-
-        public Tour() {
-            length = 0;
-            ArrayList<Integer> cities = new ArrayList<Integer>();
-            cities_visited = cities;
-        }
-
-        public int get_length() {
-            return length;
-        }
-
-        public ArrayList<Integer> get_cities_visited() {
-            return cities_visited;
-        }
-    }
-
-	/* Returns a pair with two values; a double with the total distance of the path and an array list of integers
-	which represents the taken path so far. */
-	public Pair <Double, ArrayList<Integer>> tour() {
-		for(int i=0; i < Reader.num_cities-1; i++) {
-			this.choose();
-		}
-		this.return_to_start();
-		
-		//for debugguing
-		System.out.println(path);
-
-		double distance = 0;
-		for(int i=0; i < path.size()-2; i++) {
-			int current = path.get(i);
-			int next = path.get(i + 1);
-			distance += Runner.PATHS.city_distances[current][next];		
-		}
-		//one possible issue - Runner.PATHS.best_tour will start at zero unless we tell it otherwise in runner (i guess).
-		Pair<Double, ArrayList<Integer>> ans = new Pair<Double, ArrayList<Integer>>(distance, this.path);
-		if(distance < Runner.PATHS.best_tour.getKey()) {
-			Runner.PATHS.best_tour = ans;
-		}
-		return ans;
-    }
-    
     //same method as above commented out one, just uses a class called Tour within Ant class to help clarify
-    /*public Tour tour() {
+    public Tour tour() {
         //maybe should be Reader.num_cities-1. When ant is constructed, random city is added to path.
         //that means there are n-1 other cities to choose.
 		for(int i=0; i < Reader.num_cities - 1; i++) { 
@@ -72,7 +24,7 @@ public class Ant {
 		this.return_to_start();
 		
 		//for debugguing
-		System.out.println(path);
+		System.out.println("Path after tour has been created: " + path);
 
 		double distance = 0;
 		for(int i=0; i < path.size()-2; i++) {
@@ -83,12 +35,16 @@ public class Ant {
         
         Tour tour = new Tour(distance, path);
         return tour;
-	}*/
+	}
 
 	private void return_to_start() {
 		int start = path.get(0);
 		path.add(start);
 		current_city = start;
+	}
+
+	public void reset_path() {
+		path = new ArrayList<Integer>();
 	}
 
     private void choose() {
@@ -175,18 +131,9 @@ public class Ant {
                 numerators[i] = raised_heur * raised_pher;
                 
                 denominator += numerators[i];
-				// System.out.println(distance);
-				// System.out.println(heuristic_info);
-				// System.out.println(pheremone_level);
-				// System.out.println(unraised_numerator);
-				// System.out.println("denominator");
-				// System.out.println(denominator);
-				// System.out.println(raised_heur);
-				// System.out.println(raised_pher);
-				// System.out.println(numerators[i]);
 			}
 		}
-        double [] p_vector = new double[Reader.num_cities-1];
+        double [] p_vector = new double[Reader.num_cities];
         //This is the second time we do a for loop and check to see if each city i is in the path already
         //I think it will be faster to check whether numerators[i] == 0. If it does, set p_vector[i] = 0.
         //Otherwise, p_vector[i] = numerators[i] / denominator
