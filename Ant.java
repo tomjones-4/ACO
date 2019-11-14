@@ -21,10 +21,16 @@ public class Ant {
 		for(int i=0; i < Reader.num_cities - 1; i++) { 
 			this.choose();
 		}
+		System.out.println("Ant done choosing cities, about to return to start. Cities missing:"); //debugging
+		for (int i = 0; i < Reader.num_cities; i++) { //debugging
+			if (!path.contains(i)) {
+				System.out.println(i);
+			}
+		}  //debugging
 		this.return_to_start();
 		
 		//for debugguing
-		System.out.println("Path after tour has been created: " + path);
+		System.out.println("Path after tour has been created: " + path); //debugging
 
 		double distance = 0;
 		for(int i=0; i < path.size()-2; i++) {
@@ -76,6 +82,11 @@ public class Ant {
 			}
 		}
 		
+		/* I think this is where cities are getting left off of tours. In greedy_choose a city
+		   is always added to tour. In this, a city is only added if p_choice[i] >= rand, so
+		   it's possible that this isn't always happening, in which case a city just isn't added.
+		*/
+
 		double rand = p_total * this.rand.nextDouble();
 		
 		for (int i = 0; i < p_choice.length; i++){
@@ -141,6 +152,11 @@ public class Ant {
 			if (!this.path.contains(i)) {
 				p_vector[i] = numerators[i] / denominator;
 			}
+			//adding this statement to see if it fixes the missing cities problem
+			else {
+				p_vector[i] = 0;
+			}
+			//statement done^
 		}
 		// for (int i = 0; i < p_vector.length; i++){
 		// 	System.out.println(p_vector[i]);
