@@ -128,19 +128,12 @@ public class Ant {
 		for (int i=0; i < Reader.num_cities; i++) { 
 			if (!this.path.contains(i)) {
 				double distance = Paths.city_distances[this.current_city][i];
-				
 				double heuristic_info = 1/(distance);
-			
 				double pheremone_level = Runner.PATHS.get_pheremone(this.current_city, i);
-				
 				double unraised_numerator = heuristic_info * pheremone_level;
-				
 				double raised_heur = Math.pow(heuristic_info, Runner.HEUR_POWER);
-				
 				double raised_pher = Math.pow(pheremone_level, Runner.PHER_POWER);
-				
                 numerators[i] = raised_heur * raised_pher;
-                
                 denominator += numerators[i];
 			}
 		}
@@ -158,9 +151,6 @@ public class Ant {
 			}
 			//statement done^
 		}
-		// for (int i = 0; i < p_vector.length; i++){
-		// 	System.out.println(p_vector[i]);
-		// }
 		return p_vector;
 	}
 
