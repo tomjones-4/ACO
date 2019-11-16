@@ -21,16 +21,16 @@ public class Ant {
 		for(int i=0; i < Reader.num_cities - 1; i++) { 
 			this.choose();
 		}
-		System.out.println("Ant done choosing cities, about to return to start. Cities missing:"); //debugging
+		/*System.out.println("Ant done choosing cities, about to return to start. Cities missing:"); //debugging
 		for (int i = 0; i < Reader.num_cities; i++) { //debugging
 			if (!path.contains(i)) {
 				System.out.println(i);
 			}
-		}  //debugging
+		}*/  //debugging
 		this.return_to_start();
 		
 		//for debugguing
-		System.out.println("Path after tour has been created: " + path); //debugging
+		//System.out.println("Path after tour has been created: " + path); //debugging
 
 		double distance = 0;
 		for(int i=0; i < path.size()-2; i++) {
@@ -51,6 +51,8 @@ public class Ant {
 
 	public void reset_path() {
 		path = new ArrayList<Integer>();
+		current_city = rand.nextInt(Reader.num_cities);
+		path.add(current_city);
 	}
 
     private void choose() {
@@ -88,12 +90,24 @@ public class Ant {
 		*/
 
 		double rand = p_total * this.rand.nextDouble();
+
+		//debugging statements below
+		//System.out.println("p_total: " + p_total);
+		//System.out.println("p_choice[num_cities - 1]: " + p_choice[p_vector.length - 1]);
+		/*These statements indicate the last entries in p_choice are equal to p_total, as desired,
+		  so I'm not sure where the cities are missing.
+		  Some cities are missing with really high frequency: 45, 11, 31, 10, 50 are some of them
+		*/
 		
 		for (int i = 0; i < p_choice.length; i++){
 			if (p_choice[i] >= rand){
 				current_city = i;
 				path.add(current_city);
 				break;
+			}
+			//debugging statement below
+			if (i == p_choice.length - 1) {
+				System.out.println("\n\n\nFailed to choose city in prob_choose().\n\n\n");
 			}
 		}
 

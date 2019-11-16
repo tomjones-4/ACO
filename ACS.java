@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random; //this import is used for nearest neighbor tour (can maybe delete if we move nn_tour elsewhere)
 
 //import Ant.Tour;
 
@@ -16,15 +17,12 @@ public class ACS {
         for (int i = 0; i < NUM_ANTS; i++) {
             Ant ant = new Ant();
             ants.add(ant);
-            if (i == NUM_ANTS - 1) { //debugging
-                System.out.println(ants.get(i).path); //I think at this point the path is only of length one
-            } //debugging                             //because only one city has been added
         }
         //best_tour = ants.get(0).tour();
         Double best_tour_length = Double.MAX_VALUE;
         for (int i = 0; i < NUM_ITS; i++) {
             for (int j = 0; j < NUM_ANTS; j++) {
-                System.out.println("Ant number: " + j); //debugging
+                //System.out.println("Ant number: " + j); //debugging
                 Tour tour = ants.get(j).tour();
                 /* local pheromone update: each ant reduces amount of pheromone on each leg of its respective tour
                    pher_ij = (1-epsilon)*(pher_ij) + epsilon*pher_0
@@ -38,7 +36,7 @@ public class ACS {
                    on results, and it's much easier to implement.
                 */ 
                 if (tour.get_length() < best_tour_length) {
-                    System.out.println("\n\n\n\nIteration: " + i + " Ant: " + j + " New best tour length: " + tour.get_length());
+                    System.out.println("\nIteration: " + i + " Ant: " + j + " New best tour length: " + tour.get_length() + "\n");
                     best_tour = tour;
                     best_tour_length = tour.get_length();
                 }
@@ -59,6 +57,34 @@ public class ACS {
         for (int i = 0; i < ants.size(); i++) {
             ants.get(i).reset_path();
         }
+    }
+
+    public static Tour run_NNTour() { //nearest neighbor tour
+        Double nn_length = 0.0;
+        ArrayList<Integer> nn_path = new ArrayList<Integer>();
+        Random rand = new Random();
+        int current_city = rand.nextInt(Reader.num_cities);
+        nn_path.add(current_city);
+        for (int i=0; i < Reader.num_cities - 1; i++) { //num cities to be added after start city
+            Double min_dist = Double.MAX_VALUE;
+            int min_city = -1;
+            for (int j = 0; j < Reader.num_cities; j++) { //all cities to compare distance
+                if (!nn_path.contains(j)) {
+                    if (Paths.get_distance(current_city, j) < min_dist) {
+                        min_city = j;
+                        min_dist = Paths.get_distance(current_city, j);
+                    }
+                }
+            }
+            nn_path.add(min_city);
+            nn_length += min_dist;
+        }
+        int start_city = nn_path.get(0);
+        int last_city = nn_path.get(nn_path.size() - 1);
+        nn_path.add(start_city);
+        nn_length += Paths.get_distance(last_city, start_city);
+        Tour nn_tour = new Tour(nn_length, nn_path);
+        return nn_tour;
     }
 
 }

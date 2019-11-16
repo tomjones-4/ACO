@@ -95,7 +95,11 @@ public class Paths {
 	}
 
 	public static void local_pheromone_update_ACS(Tour tour) {
-		System.out.println("Number of cities in tour: " + tour.get_cities_visited().size());
+		//System.out.println("Number of cities in tour: " + tour.get_cities_visited().size()); //debugging
+		if (tour.get_cities_visited().size() != city_distances.length + 1) {
+			System.out.println("Num cities in tour: " + tour.get_cities_visited().size() + ". Number expected: " + (city_distances.length + 1));
+		}
+		//debugging
 		for (int i = 0; i < tour.get_cities_visited().size() - 1; i++) {
 			int current = tour.get_cities_visited().get(i);
 			int next = tour.get_cities_visited().get(i+1);

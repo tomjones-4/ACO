@@ -84,6 +84,11 @@ public class Runner {
                 PATHS = new Paths(Reader.get_city_coords());
                 ACS.run_ACS();
                 System.out.println("Best result from ACS: " + ACS.best_tour.get_length());
+                //debugging statements below
+                Tour nn_tour = ACS.run_NNTour();
+                System.out.println("Best result from nearest neighbor tour: " + nn_tour.get_length());
+                System.out.println("Number of cities in NN tour: " + nn_tour.get_cities_visited().size());
+                //debugging
             }
             else { //ie COLONY_TYPE equals EAS
                 ELITISM = Double.parseDouble(args[7]);
