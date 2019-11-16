@@ -18,8 +18,7 @@ public class ACS {
             Ant ant = new Ant();
             ants.add(ant);
         }
-        //best_tour = ants.get(0).tour();
-        Double best_tour_length = Double.MAX_VALUE;
+        Double best_tour_length = Double.MAX_VALUE; //max value?
         for (int i = 0; i < NUM_ITS; i++) {
             for (int j = 0; j < NUM_ANTS; j++) {
                 //System.out.println("Ant number: " + j); //debugging
@@ -27,7 +26,26 @@ public class ACS {
                 /* local pheromone update: each ant reduces amount of pheromone on each leg of its respective tour
                    pher_ij = (1-epsilon)*(pher_ij) + epsilon*pher_0
                 */
-                Paths.local_pheromone_update_ACS(tour);
+                
+
+                if (tour.get_length() < best_tour_length) {
+                    ArrayList<Double> old_pheremones_on_best_path = new ArrayList<Double>();
+                    for(int f = 0; f < tour.get_size()-1; f++) {
+                        old_pheremones_on_best_path.add(Paths.get_pheremone(tour.city_at_index(f), tour.city_at_index(f+1)));
+                    }
+
+                    System.out.println("\nIteration: " + i + " Ant: " + j + " New best tour length: " + tour.get_length() + "\n");
+                    System.out.println("new best tour assignment: " + tour.get_cities_visited());
+                    System.out.println("old pheremones: " + old_pheremones_on_best_path);
+                    Paths.local_pheromone_update_ACS(tour);
+                    ArrayList<Double> new_pheremones_on_best_path = new ArrayList<Double>();
+                    for(int f = 0; f < tour.get_size()-1; f++) {
+                        new_pheremones_on_best_path.add(Paths.get_pheremone(tour.city_at_index(f), tour.city_at_index(f+1)));
+                    }
+                    System.out.println("new pheremones: " + new_pheremones_on_best_path);
+                    best_tour = tour;
+                    best_tour_length = tour.get_length();
+                } else {
                 /* This local pheromone update happens AS the ant is doing its tour.
                    That is, after ant 1 completes its tour, the edges should be updated/reduced pheromone
                    before ant 2 goes on its your.
@@ -35,12 +53,10 @@ public class ACS {
                    rather than concurrently because it does not have significant effect
                    on results, and it's much easier to implement.
                 */ 
-                if (tour.get_length() < best_tour_length) {
-                    System.out.println("\nIteration: " + i + " Ant: " + j + " New best tour length: " + tour.get_length() + "\n");
-                    best_tour = tour;
-                    best_tour_length = tour.get_length();
+                Paths.local_pheromone_update_ACS(tour);
+
+       
                 }
-                
             }
             /* offline pheromone update: every leg in tour of best ant so far gets updated
                    pher_ij = (1-rho)*(pher_ij) + rho*(1/length_best) if ij in best

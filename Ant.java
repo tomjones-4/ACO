@@ -16,8 +16,6 @@ public class Ant {
     
     //same method as above commented out one, just uses a class called Tour within Ant class to help clarify
     public Tour tour() {
-        //maybe should be Reader.num_cities-1. When ant is constructed, random city is added to path.
-        //that means there are n-1 other cities to choose.
 		for(int i=0; i < Reader.num_cities - 1; i++) { 
 			this.choose();
 		}
