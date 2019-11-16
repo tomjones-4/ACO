@@ -76,10 +76,9 @@ public class Paths {
 		for (int i = 0; i < Runner.problem_reader.city_coords.size(); i++) {
 			for (int j = 0; j < Runner.problem_reader.city_coords.size(); j++) {
 				if (i != j) { //can't have pheremones leading from a city to itself
-					//double first = (1-Runner.WEARING_AWAY) * this.pheremones[i][j]; //(1-wearing.away) * τ(r,s)
 					double first = (1-Runner.EVAP_FACTOR) * pheremones[i][j];
 					double second = 0;
-					int i_index = ACS.best_tour.get_cities_visited().indexOf(i); //where is city i on the best tour
+					int i_index = ACS.best_tour.get_cities_visited().indexOf(i); //i_index = where city i is on the best tour
 					if (ACS.best_tour.get_cities_visited().get(i_index+1) == j) { 	/*Does city j come after city i on the best tour?
 						Note: there is no risk of an out of bounds exception because the last city is also the first city,
 						method indexOf(Object o) returns the first occurence.*/

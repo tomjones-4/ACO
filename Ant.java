@@ -56,17 +56,15 @@ public class Ant {
     private void choose() {
         double random = this.rand.nextDouble();
         if (random <= Runner.BEST_LEG) {
+        	System.out.println("greedy_choose");
             greedy_choose();
         }
         else {
+        	System.out.println("prob_choose");
             prob_choose();
         }
     }
 
-    /* I think we need to change choose() method to account for Action Selection Rule in ACS
-       Alternative solution: create a method called greedy_choose() which chooses best city, and leave
-       choose() as is, maybe change its name to random_choose() to clarify.
-    */
 	private void prob_choose() {
 		double [] p_vector = this.create_p_vector();
 		double [] p_choice = new double[p_vector.length];
@@ -86,8 +84,8 @@ public class Ant {
 		   is always added to tour. In this, a city is only added if p_choice[i] >= rand, so
 		   it's possible that this isn't always happening, in which case a city just isn't added.
 		*/
-
-		double rand = p_total * this.rand.nextDouble();
+		System.out.println("P_total: " + p_total);
+		double randy = p_total * this.rand.nextDouble();
 
 		//debugging statements below
 		//System.out.println("p_total: " + p_total);
@@ -98,7 +96,7 @@ public class Ant {
 		*/
 		
 		for (int i = 0; i < p_choice.length; i++){
-			if (p_choice[i] >= rand){
+			if (p_choice[i] >= randy){
 				current_city = i;
 				path.add(current_city);
 				break;
@@ -136,7 +134,6 @@ public class Ant {
 	private double[] create_p_vector() {
 		double [] numerators = new double[Reader.num_cities];
         double denominator = 0;
-        //I think this should be i < Reader.num_cities because we need to check last city, too
 		for (int i=0; i < Reader.num_cities; i++) { 
 			if (!this.path.contains(i)) {
 				double distance = Paths.city_distances[this.current_city][i];
@@ -147,8 +144,11 @@ public class Ant {
 				double raised_pher = Math.pow(pheremone_level, Runner.PHER_POWER);
                 numerators[i] = raised_heur * raised_pher;
                 denominator += numerators[i];
+			} else {
+				numerators[i] = 0;
 			}
 		}
+		ArrayList<Double> print_vector = new ArrayList<Double>();
         double [] p_vector = new double[Reader.num_cities];
         //This is the second time we do a for loop and check to see if each city i is in the path already
         //I think it will be faster to check whether numerators[i] == 0. If it does, set p_vector[i] = 0.
@@ -163,6 +163,11 @@ public class Ant {
 			}
 			//statement done^
 		}
+		
+		for (int i=0; i<Reader.num_cities; i++) {
+			print_vector.add(p_vector[i]);
+		}
+		System.out.println("Print vector: " + print_vector);
 		return p_vector;
 	}
 

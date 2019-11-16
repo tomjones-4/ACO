@@ -26,26 +26,17 @@ public class ACS {
                 /* local pheromone update: each ant reduces amount of pheromone on each leg of its respective tour
                    pher_ij = (1-epsilon)*(pher_ij) + epsilon*pher_0
                 */
-                
 
+
+                
                 if (tour.get_length() < best_tour_length) {
                     ArrayList<Double> old_pheremones_on_best_path = new ArrayList<Double>();
-                    for(int f = 0; f < tour.get_size()-1; f++) {
-                        old_pheremones_on_best_path.add(Paths.get_pheremone(tour.city_at_index(f), tour.city_at_index(f+1)));
-                    }
-
                     System.out.println("\nIteration: " + i + " Ant: " + j + " New best tour length: " + tour.get_length() + "\n");
-                    System.out.println("new best tour assignment: " + tour.get_cities_visited());
-                    System.out.println("old pheremones: " + old_pheremones_on_best_path);
-                    Paths.local_pheromone_update_ACS(tour);
-                    ArrayList<Double> new_pheremones_on_best_path = new ArrayList<Double>();
-                    for(int f = 0; f < tour.get_size()-1; f++) {
-                        new_pheremones_on_best_path.add(Paths.get_pheremone(tour.city_at_index(f), tour.city_at_index(f+1)));
-                    }
-                    System.out.println("new pheremones: " + new_pheremones_on_best_path);
+                    System.out.println("new best tour assignment: " + tour.get_cities_visited());                 
                     best_tour = tour;
                     best_tour_length = tour.get_length();
-                } else {
+                }
+
                 /* This local pheromone update happens AS the ant is doing its tour.
                    That is, after ant 1 completes its tour, the edges should be updated/reduced pheromone
                    before ant 2 goes on its your.
@@ -55,9 +46,16 @@ public class ACS {
                 */ 
                 Paths.local_pheromone_update_ACS(tour);
 
-       
-                }
+        /*Debugging statements re: pheremones 
+                for(int f = 0; f <Runner.problem_reader.num_cities; f++) {
+                    ArrayList<Double> from_current_city = new ArrayList<Double>();
+                    for(int g = 0; g <Runner.problem_reader.num_cities; g++) {
+                        from_current_city.add(Paths.get_pheremone(f, g));
+                    }
+                    System.out.println(from_current_city);
+                }*/
             }
+            
             /* offline pheromone update: every leg in tour of best ant so far gets updated
                    pher_ij = (1-rho)*(pher_ij) + rho*(1/length_best) if ij in best
             */
