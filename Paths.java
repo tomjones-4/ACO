@@ -77,7 +77,6 @@ public class Paths {
 			int i_index = ACS.best_tour.get_cities_visited().indexOf(i); //where is city i on the best tour
 			for (int j = 0; j < Runner.problem_reader.city_coords.size(); j++) {
 				if (i != j) { //can't have pheremones leading from a city to itself
-					//double first = (1-Runner.WEARING_AWAY) * this.pheremones[i][j]; //(1-wearing.away) * τ(r,s)
 					double first = (1-Runner.EVAP_FACTOR) * pheremones[i][j];
 					double second = 0;
 					if (ACS.best_tour.get_cities_visited().get(i_index+1) == j) { 	/*Does city j come after city i on the best tour?

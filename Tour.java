@@ -22,4 +22,10 @@ public  class Tour {
         public ArrayList<Integer> get_cities_visited() {
             return cities_visited;
         }
+        public int city_at_index(int index) {
+            return cities_visited.get(index);
+        }
+        public int get_size() {
+            return cities_visited.size();
+        }
     }
