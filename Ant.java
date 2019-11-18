@@ -91,6 +91,9 @@ public class Ant {
 
 		double rand = p_total * this.rand.nextDouble();
 
+		//debugging
+		//System.out.println("p_total: " + p_total);
+
 		//debugging statements below
 		//System.out.println("p_total: " + p_total);
 		//System.out.println("p_choice[num_cities - 1]: " + p_choice[p_vector.length - 1]);
@@ -107,13 +110,20 @@ public class Ant {
 			}
 			//debugging statement below
 			if (i == p_choice.length - 1) {
-				System.out.println("\n\n\nFailed to choose city in prob_choose().\n\n\n");
+				System.out.println("\n\n\nFailed to choose city in prob_choose().");
+				System.out.println("p_choice[p_choice.length - 1]: " + p_choice[p_choice.length - 1]);
+				System.out.println("p_choice[p_choice.length - 2]: " + p_choice[p_choice.length - 2]);
+				System.out.println("p_total: " + p_total);
+				System.out.println("Length of path at this point: " + path.size() + "\n\n\n");
 			}
 		}
 
+		//Is it possible pheromone levels get negative sometimes and that's what is causing error?
+
 
     }
-    
+	
+	//Greedy choosing algorithm which chooses city that chooses city with max τ * η^β
     private void greedy_choose() {
         int best_city = 0;
         double best_city_score = Double.MAX_VALUE;
@@ -137,10 +147,14 @@ public class Ant {
 
 	private double[] create_p_vector() {
 		double [] numerators = new double[Reader.num_cities];
-        double denominator = 0;
+		double denominator = 0;
+		Boolean no_cities_left = true; //debugging
         //I think this should be i < Reader.num_cities because we need to check last city, too
 		for (int i=0; i < Reader.num_cities; i++) { 
-			if (!this.path.contains(i)) {
+			numerators[i] = 0.0; //debugging
+			//if city isn't in tour already, assign probability based on heuristic info and pheromones
+			if (!this.path.contains(i)) { 
+				no_cities_left = false; //debugging
 				double distance = Paths.city_distances[this.current_city][i];
 				double heuristic_info = 1/(distance);
 				double pheremone_level = Runner.PATHS.get_pheremone(this.current_city, i);
@@ -151,11 +165,16 @@ public class Ant {
                 denominator += numerators[i];
 			}
 		}
+		if (no_cities_left) { //debugging
+			System.out.println("\n\n\nNo cities left\n\n\n");
+			
+		}
+
         double [] p_vector = new double[Reader.num_cities];
         //This is the second time we do a for loop and check to see if each city i is in the path already
         //I think it will be faster to check whether numerators[i] == 0. If it does, set p_vector[i] = 0.
         //Otherwise, p_vector[i] = numerators[i] / denominator
-		for (int i=0; i < Reader.num_cities; i++) {
+		/*for (int i=0; i < Reader.num_cities; i++) {
 			if (!this.path.contains(i)) {
 				p_vector[i] = numerators[i] / denominator;
 			}
@@ -164,6 +183,11 @@ public class Ant {
 				p_vector[i] = 0;
 			}
 			//statement done^
+		}*/
+
+		//We already set numerators[i] = 0 if city i is in path already, so we can just do the following:
+		for (int i = 0; i < Reader.num_cities; i++) {
+			p_vector[i] = numerators[i] / denominator;
 		}
 		return p_vector;
 	}
