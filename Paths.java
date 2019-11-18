@@ -118,6 +118,16 @@ public class Paths {
 		return pheremones[city1][city2];
 	}
 
+	public Double calculate_distance_of_path(ArrayList<Integer> path) {
+		Double total_distance = 0.0;
+		for (int i = 0; i<path.size()-1;i++) {
+			int current_city = path.get(i);
+			int next_city = path.get(i+1);
+			total_distance+=this.get_distance(current_city, next_city);
+		}
+		return total_distance;
+	}
+
 	//debugging
 	/*public static void main(String[] args){
 		String file = args[0];

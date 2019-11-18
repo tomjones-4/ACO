@@ -92,6 +92,7 @@ public class ACS {
             }
             nn_path.add(min_city);
             nn_length += min_dist;
+            current_city = min_city;
         }
         int start_city = nn_path.get(0);
         int last_city = nn_path.get(nn_path.size() - 1);
