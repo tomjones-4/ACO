@@ -56,11 +56,11 @@ public class Ant {
     private void choose() {
         double random = this.rand.nextDouble();
         if (random <= Runner.BEST_LEG) {
-        	System.out.println("greedy_choose");
+        	//System.out.println("greedy_choose");
             greedy_choose();
         }
         else {
-        	System.out.println("prob_choose");
+        	//System.out.println("prob_choose");
             prob_choose();
         }
     }
@@ -84,7 +84,7 @@ public class Ant {
 		   is always added to tour. In this, a city is only added if p_choice[i] >= rand, so
 		   it's possible that this isn't always happening, in which case a city just isn't added.
 		*/
-		System.out.println("P_total: " + p_total);
+		//System.out.println("P_total: " + p_total);
 		double randy = p_total * this.rand.nextDouble();
 
 		//debugging
@@ -192,7 +192,7 @@ public class Ant {
 		for (int i=0; i<Reader.num_cities; i++) {
 			print_vector.add(p_vector[i]);
 		}
-		System.out.println("Print vector: " + print_vector);
+		//System.out.println("Print vector: " + print_vector);
 		return p_vector;
 	}
 
