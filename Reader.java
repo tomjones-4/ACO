@@ -21,8 +21,10 @@ public class Reader {
 			Scanner file_scan = new Scanner(file);
 			while (file_scan.hasNextLine()){
                 String line = file_scan.nextLine();
+                System.out.println("line: " + line); //debugging
                 //this line contains number of cities in problem
                 if (line.substring(0, 3).equals("DIM")) {
+                    System.out.println("DIM line: " + line); //debugging
                     int index_of_colon = line.indexOf(":");
                     num_cities = Integer.parseInt(line.substring(index_of_colon + 2)); //gets number of cities as int
                     //System.out.println("Num cities in Reader.java: " + num_cities); //debugging
@@ -44,6 +46,10 @@ public class Reader {
                         city_coords.add(coords);
                         string_coords = file_scan.nextLine();
                     }
+                }
+                else if (line.substring(0, 3).equals("EOF")) {
+                    System.out.println("Breaking"); //debugging
+                    break;
                 }
             }
             // debugging
