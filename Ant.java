@@ -31,7 +31,7 @@ public class Ant {
 		//System.out.println("Path after tour has been created: " + path); //debugging
 
 		double distance = 0;
-		for(int i=0; i < path.size()-2; i++) {
+		for(int i=0; i < path.size()-1; i++) {
 			int current = path.get(i);
 			int next = path.get(i + 1);
 			distance += Runner.PATHS.city_distances[current][next];
