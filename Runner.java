@@ -93,6 +93,8 @@ public class Runner {
                 System.out.println("Best result from ACS: " + ACS.best_tour.get_length());
                 System.out.println("Best tour: " + ACS.best_tour.get_cities_visited());
                 System.out.println("Independent calc of best tour length: " + PATHS.calculate_distance_of_path(ACS.best_tour.get_cities_visited()));
+                System.out.println("ACS.best_tour.length: " + ACS.best_tour.length);
+
 
                 //debugging statements below
                 System.out.println("Best result from nearest neighbor tour: " + nn_tour.get_length());

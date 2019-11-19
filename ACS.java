@@ -6,9 +6,7 @@ import java.util.Random; //this import is used for nearest neighbor tour (can ma
 public class ACS {
 
     public static Tour best_tour;
-    //public static Tour best_tour = new Tour();
-    //public static Ant test_ant = new Ant();
-    //public static Tour best_tour = new Ant.Tour();
+
     public static ArrayList<Ant> ants = new ArrayList<Ant>();
     public static int NUM_ANTS = Runner.NUM_ANTS;
     public static int NUM_ITS = Runner.NUM_ITS;
@@ -21,19 +19,14 @@ public class ACS {
         Double best_tour_length = Double.MAX_VALUE; //max value?
         for (int i = 0; i < NUM_ITS; i++) {
             for (int j = 0; j < NUM_ANTS; j++) {
-                //System.out.println("Ant number: " + j); //debugging
+
                 Tour tour = ants.get(j).tour();
-                /* local pheromone update: each ant reduces amount of pheromone on each leg of its respective tour
-                   pher_ij = (1-epsilon)*(pher_ij) + epsilon*pher_0
-                */
-
-
                 
                 if (tour.get_length() < best_tour_length) {
                     ArrayList<Double> old_pheremones_on_best_path = new ArrayList<Double>();
                     System.out.println("\nIteration: " + i + " Ant: " + j + " New best tour length: " + tour.get_length() + "\n");
-                    System.out.println("new best tour assignment: " + tour.get_cities_visited());                 
-                    best_tour = tour;
+                    //System.out.println("new best tour assignment: " + tour.get_cities_visited());                 
+                    best_tour =  new Tour(tour.get_length(), tour.get_cities_visited());
                     best_tour_length = tour.get_length();
                 }
 
@@ -46,14 +39,6 @@ public class ACS {
                 */ 
                 Paths.local_pheromone_update_ACS(tour);
 
-        /*Debugging statements re: pheremones 
-                for(int f = 0; f <Runner.problem_reader.num_cities; f++) {
-                    ArrayList<Double> from_current_city = new ArrayList<Double>();
-                    for(int g = 0; g <Runner.problem_reader.num_cities; g++) {
-                        from_current_city.add(Paths.get_pheremone(f, g));
-                    }
-                    System.out.println(from_current_city);
-                }*/
             }
             
             /* offline pheromone update: every leg in tour of best ant so far gets updated
