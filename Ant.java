@@ -19,16 +19,7 @@ public class Ant {
 		for(int i=0; i < Reader.num_cities - 1; i++) { 
 			this.choose();
 		}
-		/*System.out.println("Ant done choosing cities, about to return to start. Cities missing:"); //debugging
-		for (int i = 0; i < Reader.num_cities; i++) { //debugging
-			if (!path.contains(i)) {
-				System.out.println(i);
-			}
-		}*/  //debugging
 		this.return_to_start();
-		
-		//for debugguing
-		//System.out.println("Path after tour has been created: " + path); //debugging
 
 		double distance = 0;
 		for(int i=0; i < path.size()-1; i++) {
