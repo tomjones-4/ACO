@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public  class Tour {
+public  class Tour implements Cloneable{
         public Double length;
         public ArrayList<Integer> cities_visited = new ArrayList<Integer>();
 

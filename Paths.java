@@ -3,10 +3,12 @@ import java.lang.Math;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+
 //import javafx.util.Pair;
 
 public class Paths {
 
+	private static Double MIN_PHER = 0.001;
 	public static Double[][] city_distances;
 	public static Double[][] pheremones;
 
@@ -65,6 +67,9 @@ public class Paths {
 			for (int j = 0; j < Runner.problem_reader.city_coords.size(); j++) {
 				if (i!=j) {
 					double first = (1-Runner.EVAP_FACTOR) * pheremones[i][j];
+				}
+				if (pheremones[i][j] < MIN_PHER) {
+					pheremones[i][j] = MIN_PHER;
 				}
 			}
 		}
