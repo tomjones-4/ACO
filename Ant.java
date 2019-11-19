@@ -117,7 +117,7 @@ public class Ant {
 	//Greedy choosing algorithm which chooses city that chooses city with max τ * η^β
     private void greedy_choose() {
         int best_city = 0;
-        double best_city_score = Double.MAX_VALUE;
+        double best_city_score = Double.MIN_VALUE;
         for (int i = 0; i < Reader.num_cities; i++) {
             if (!path.contains(i)) {
                 double pheremone_level = Paths.get_pheremone(current_city, i);
@@ -125,7 +125,7 @@ public class Ant {
                 double heuristic_info = 1/(distance);
                 double raised_heur = Math.pow(heuristic_info, Runner.HEUR_POWER);
                 double city_score = pheremone_level * raised_heur;
-                if (city_score < best_city_score) {
+                if (city_score > best_city_score) {
                     best_city = i;
                     best_city_score = city_score;
                 }
@@ -182,9 +182,6 @@ public class Ant {
 			//statement done^
 		}*/
 
-		if (denominator < 0.0000000001) { //debugging
-			System.out.println("\n\n\n\n###############About to divide by zero.##################\n\n\n");
-		}
 
 		for (int i = 0; i < Reader.num_cities; i++) {
 			p_vector[i] = numerators[i] / denominator;
