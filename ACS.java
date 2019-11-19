@@ -32,7 +32,7 @@ public class ACS {
                 if (tour.get_length() < best_tour_length) {
                     ArrayList<Double> old_pheremones_on_best_path = new ArrayList<Double>();
                     System.out.println("\nIteration: " + i + " Ant: " + j + " New best tour length: " + tour.get_length() + "\n");
-                    System.out.println("new best tour assignment: " + tour.get_cities_visited());                 
+                    //System.out.println("new best tour assignment: " + tour.get_cities_visited());                 
                     best_tour = tour;
                     best_tour_length = tour.get_length();
                 }

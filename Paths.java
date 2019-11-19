@@ -124,7 +124,7 @@ public class Paths {
 		for (int i = 0; i<path.size()-1;i++) {
 			int current_city = path.get(i);
 			int next_city = path.get(i+1);
-			total_distance+=this.get_distance(current_city, next_city);
+			total_distance += get_distance(current_city, next_city);
 		}
 		return total_distance;
 	}
