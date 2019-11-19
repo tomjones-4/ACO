@@ -42,7 +42,7 @@ public class Paths {
 		for (int i = 0; i < tour.get_cities_visited().size() - 1; i++) {
 			int current = tour.get_cities_visited().get(i);
 			int next = tour.get_cities_visited().get(i+1);
-			pheremones[current][next] += (1/tour.get_distance())
+			pheremones[current][next] += (1/tour.get_length());
 		}
 	}
 	//Apply this once (feeding in the best tour) after each iteration.
@@ -50,13 +50,13 @@ public class Paths {
 		for (int i = 0; i < tour.get_cities_visited().size() - 1; i++) {
 			int current = tour.get_cities_visited().get(i);
 			int next = tour.get_cities_visited().get(i+1);
-			pheremones[current][next] += Runner.ELITISM * (1/tour.get_distance())
+			pheremones[current][next] += Runner.ELITISM * (1/tour.get_length());
 		}
 	}
 	//Apply this at the end of each iteration
 	public static void global_pheremone_update_EAS() {
 		for (int i = 0; i < Runner.problem_reader.city_coords.size(); i++) {
-			for (int i = 0; i < Runner.problem_reader.city_coords.size(); i++) {
+			for (int j = 0; j < Runner.problem_reader.city_coords.size(); j++) {
 				if (i!=j) {
 					double first = (1-Runner.EVAP_FACTOR) * pheremones[i][j];
 				}
@@ -67,7 +67,7 @@ public class Paths {
 	public static void offline_pheromone_update_ACS() {
 		for (int i = 0; i < Runner.problem_reader.city_coords.size(); i++) {
 			int i_index = ACS.best_tour.get_cities_visited().indexOf(i); //where is city i on the best tour
-			for (int i = 0; i < Runner.problem_reader.city_coords.size(); i++) {
+			for (int j = 0; j < Runner.problem_reader.city_coords.size(); j++) {
 				if (i != j) { //can't have pheremones leading from a city to itself
 					double first = (1-Runner.EVAP_FACTOR) * pheremones[i][j];
 					double second = 0;

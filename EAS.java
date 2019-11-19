@@ -12,12 +12,22 @@ public class EAS {
 	public static ArrayList<Ant> ants = new ArrayList<Ant>();
     public static int NUM_ANTS = Runner.NUM_ANTS;
     public static int NUM_ITS = Runner.NUM_ITS;
-
+    public static Double best_tour_length = Double.MAX_VALUE;
 
     public static void run_EAS() {
+
     	for (int i = 0; i < NUM_ANTS; i++) {
             Ant ant = new Ant();
             ants.add(ant);
+        }
+
+        for (int i = 0; i < Runner.NUM_ITS; i++) {
+            for (int j = 0; j < Runner.NUM_ANTS; j++) {
+                Tour current_tour = ants.get(j).tour();
+                if (current_tour.get_length() < best_tour_length) {
+                    best_tour = current_tour;
+                }
+            }
         }
     }
 }
