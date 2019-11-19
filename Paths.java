@@ -1,6 +1,7 @@
 /*This class has two 2d arays, city_distances and pheremones. */
 import java.lang.Math;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 //import javafx.util.Pair;
 
@@ -25,14 +26,19 @@ public class Paths {
 
 			}
 		}
-		//populate pheremones with all ones initially
-		for (int i=0; i < city_coords.size(); i++){
-			for (int j=0; j < city_coords.size(); j ++){
-				pheremones[i][j] = 1.0;
+		//System.out.println(Arrays.deepToString(city_distances).replace("], ", "]\n"));
+		//System.exit(0);
+
+
+
+	}
+
+	public void generate_init_pheremones(){
+		for (int i=0; i < city_distances.length; i++){
+			for (int j=0; j < city_distances.length; j ++){
+				pheremones[i][j] = Runner.INITIAL_PHER;
 			}
 		}
-
-
 	}
 
 
@@ -89,12 +95,15 @@ public class Paths {
 		//System.out.println("Number of cities in tour: " + tour.get_cities_visited().size()); //debugging
 		if (tour.get_cities_visited().size() != city_distances.length + 1) {
 			System.out.println("Num cities in tour: " + tour.get_cities_visited().size() + ". Number expected: " + (city_distances.length + 1));
+			System.exit(0);
 		}
 		//debugging
 		for (int i = 0; i < tour.get_cities_visited().size() - 1; i++) {
 			int current = tour.get_cities_visited().get(i);
 			int next = tour.get_cities_visited().get(i+1);
+
 			pheremones[current][next] = (1-Runner.WEARING_AWAY) * pheremones[current][next] + Runner.WEARING_AWAY * Runner.INITIAL_PHER;
+
 		}
 	}
 
