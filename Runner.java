@@ -81,14 +81,20 @@ public class Runner {
                 //read in problem file, so num cities and coordinates are established
                 problem_reader = new Reader(problem_file);
                 //fill in distances and pheromone levels in paths
+                
+                
+                
                 PATHS = new Paths(Reader.get_city_coords());
+                Tour nn_tour = ACS.run_NNTour();
+                INITIAL_PHER = 1/(Reader.get_num_cities() * nn_tour.get_length());
+                PATHS.generate_init_pheremones();
+                
                 ACS.run_ACS();
                 System.out.println("Best result from ACS: " + ACS.best_tour.get_length());
                 System.out.println("Best tour: " + ACS.best_tour.get_cities_visited());
                 System.out.println("Independent calc of best tour length: " + PATHS.calculate_distance_of_path(ACS.best_tour.get_cities_visited()));
 
                 //debugging statements below
-                Tour nn_tour = ACS.run_NNTour();
                 System.out.println("Best result from nearest neighbor tour: " + nn_tour.get_length());
                 System.out.println("Number of cities in NN tour: " + nn_tour.get_cities_visited().size());
                 //debugging
