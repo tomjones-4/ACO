@@ -56,11 +56,11 @@ public class Ant {
     private void choose() {
         double random = this.rand.nextDouble();
         if (random <= Runner.BEST_LEG) {
-        	System.out.println("greedy_choose");
+        	//System.out.println("greedy_choose");
             greedy_choose();
         }
         else {
-        	System.out.println("prob_choose");
+        	//System.out.println("prob_choose");
             prob_choose();
         }
     }
@@ -84,7 +84,7 @@ public class Ant {
 		   is always added to tour. In this, a city is only added if p_choice[i] >= rand, so
 		   it's possible that this isn't always happening, in which case a city just isn't added.
 		*/
-		System.out.println("P_total: " + p_total);
+		//System.out.println("P_total: " + p_total);
 		double randy = p_total * this.rand.nextDouble();
 
 		//debugging
@@ -107,10 +107,14 @@ public class Ant {
 			//debugging statement below
 			if (i == p_choice.length - 1) {
 				System.out.println("\n\n\nFailed to choose city in prob_choose().");
-				System.out.println("p_choice[p_choice.length - 1]: " + p_choice[p_choice.length - 1]);
-				System.out.println("p_choice[p_choice.length - 2]: " + p_choice[p_choice.length - 2]);
+				/*for (int j = 0; j < Reader.num_cities; j++) { //debugging
+					System.out.println("p_choice[" + j + "]: " + p_choice[j]);
+					System.out.println("p_vector[" + j + "]: " + p_vector[j]);
+				}*/
+				//System.out.println("p_choice[p_choice.length - 1]: " + p_choice[p_choice.length - 1]);
+				//System.out.println("p_choice[p_choice.length - 2]: " + p_choice[p_choice.length - 2]);
 				System.out.println("p_total: " + p_total);
-				System.out.println("Length of path at this point: " + path.size() + "\n\n\n");
+				//System.out.println("Length of path at this point: " + path.size() + "\n\n\n");
 			}
 		}
 
@@ -157,7 +161,10 @@ public class Ant {
 				double unraised_numerator = heuristic_info * pheremone_level;
 				double raised_heur = Math.pow(heuristic_info, Runner.HEUR_POWER);
 				double raised_pher = Math.pow(pheremone_level, Runner.PHER_POWER);
-                numerators[i] = raised_heur * raised_pher;
+				numerators[i] = raised_heur * raised_pher;
+				if (numerators[i] < 0) { //debugging
+					System.out.println("\n\n\n############Negative numerator#############\n\n\n");
+				}
                 denominator += numerators[i];
 			} else {
 				numerators[i] = 0;
@@ -184,15 +191,18 @@ public class Ant {
 			//statement done^
 		}*/
 
-		//We already set numerators[i] = 0 if city i is in path already, so we can just do the following:
+		if (denominator < 0.0000000001) { //debugging
+			System.out.println("\n\n\n\n###############About to divide by zero.##################\n\n\n");
+		}
+
 		for (int i = 0; i < Reader.num_cities; i++) {
 			p_vector[i] = numerators[i] / denominator;
 		}
 		
-		for (int i=0; i<Reader.num_cities; i++) {
+		for (int i=0; i<Reader.num_cities; i++) { //debugging
 			print_vector.add(p_vector[i]);
 		}
-		System.out.println("Print vector: " + print_vector);
+		//System.out.println("Print vector: " + print_vector);
 		return p_vector;
 	}
 
