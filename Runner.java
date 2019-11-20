@@ -110,6 +110,7 @@ public class Runner {
                     DISP_INTERVAL = Integer.parseInt(args[8]);
                 }
                 problem_reader = new Reader(problem_file);
+                NUM_CITIES = Reader.num_cities;
 
                 //fill in distances and pheromone levels in paths
                 PATHS = new Paths(Reader.get_city_coords());

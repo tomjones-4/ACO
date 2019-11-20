@@ -57,7 +57,12 @@ public class Paths {
 	public static void global_pheromone_update_EAS_Tom() {
 
 		//create 2d array for updates to each path between cities. values are initialized to 0.0
-		pheromone_updates = new Double[Runner.NUM_CITIES][Runner.NUM_CITIES];
+		Double[][] pheromone_updates = new Double[Runner.NUM_CITIES][Runner.NUM_CITIES];
+		for (int i = 0; i < Runner.NUM_CITIES; i++) {
+			for (int j = 0; j < Runner.NUM_CITIES; j++) {
+				pheromone_updates[i][j] = 0.0;
+			}
+		}
 		for (int i = 0; i < Runner.NUM_ANTS; i++) {
 			Tour tour = EAS.iteration_tours.get(i);
 
@@ -65,7 +70,7 @@ public class Paths {
 			for (int j = 0; j < tour.get_size() - 1; j++) {
 				int current = tour.get_cities_visited().get(i);
 				int next = tour.get_cities_visited().get(i+1);
-				pheromone_updates[current][next] += 1 / (tour.get_length());
+				pheromone_updates[current][next] += (1 / tour.get_length());
 			}
 		}
 		for (int i = 0; i < Runner.NUM_CITIES; i++) {
