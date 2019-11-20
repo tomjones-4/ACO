@@ -1,7 +1,5 @@
-/* Copied Runner.java over from GA/PBIL project because I figured this
-   would be a good starting point.
-*/
-//import javafx.util.Pair;
+/* Runner class which takes in input from user and initializes values and calls ACS
+   or EAS, depending on which type of ACO algorithm was specified by user. */
 import java.util.*;
 
 public class Runner {
@@ -52,14 +50,16 @@ public class Runner {
         System.out.println("    evap_factor     = amount of evaporation between iterations (double)");
         System.out.println("    elitism         = elitism factor");
         System.out.println("    disp (optional) = display interval (int)");
-	    System.out.println();
-	    System.exit(1); // prevent the program from continuing without the correct inputs
+        System.out.println();
+
+        //prevent the program from continuing without the correct inputs
+	    System.exit(1);
     }
     public static void main (String[] args) {
 
 	    /*The following block of code assigns the users command line inputs to the appropriate
         constants.  */
-	    if (args.length != 9 && args.length != 8 && args.length != 10 && args.length != 11) {
+	    if (args.length != 8 && args.length != 9 && args.length != 10 && args.length != 11) {
             print_help();
 	    }
 	    else {
@@ -78,21 +78,22 @@ public class Runner {
                 if (args.length > 10) {
                     DISP_INTERVAL = Integer.parseInt(args[10]);
                 }
+
                 //read in problem file, so num cities and coordinates are established
                 problem_reader = new Reader(problem_file);
+
                 //fill in distances and pheromone levels in paths
-                
-                
-                
                 PATHS = new Paths(Reader.get_city_coords());
-                Tour nn_tour = ACS.run_NNTour();
+
+                //run nearest neighbor tour to be able to initialize pheromone levels in ACS
+                Tour nn_tour = run_NNTour();
                 INITIAL_PHER = 1/(Reader.get_num_cities() * nn_tour.get_length());
                 PATHS.generate_init_pheremones();
                 
                 ACS.run_ACS();
                 System.out.println("Best result from ACS: " + ACS.best_tour.get_length());
                 System.out.println("Best tour: " + ACS.best_tour.get_cities_visited());
-                System.out.println("Independent calc of best tour length: " + PATHS.calculate_distance_of_path(ACS.best_tour.get_cities_visited()));
+                //System.out.println("Independent calc of best tour length: " + PATHS.calculate_distance_of_path(ACS.best_tour.get_cities_visited())); //debugging
                 System.out.println("ACS.best_tour.length: " + ACS.best_tour.length);
 
 
@@ -107,8 +108,12 @@ public class Runner {
                     DISP_INTERVAL = Integer.parseInt(args[8]);
                 }
                 problem_reader = new Reader(problem_file);
-                PATHS = new Paths(Reader.get_city_coords()); //maybe should be problem_reader.get_city_coords()?
-                Tour nn_tour = ACS.run_NNTour();
+
+                //fill in distances and pheromone levels in paths
+                PATHS = new Paths(Reader.get_city_coords());
+
+                //run nearest neighbor tour to be able to initialize pheromone levels in EAS
+                Tour nn_tour = run_NNTour();
                 INITIAL_PHER = 1/(Reader.get_num_cities() * nn_tour.get_length());
                 PATHS.generate_init_pheremones();
                 
@@ -123,6 +128,43 @@ public class Runner {
                 System.out.println("Number of cities in NN tour: " + nn_tour.get_cities_visited().size());
             }
         }
+    }
+
+    /*nearest neighbor tour method: ant chooses first city randomly,
+    then closest new city until all cities chosen*/
+    public static Tour run_NNTour() {
+        Double nn_length = 0.0;
+        ArrayList<Integer> nn_path = new ArrayList<Integer>();
+        Random rand = new Random();
+        int current_city = rand.nextInt(Reader.num_cities);
+        nn_path.add(current_city);
+        for (int i=0; i < Reader.num_cities - 1; i++) {
+            Double min_dist = Double.MAX_VALUE;
+            int min_city = -1;
+            for (int j = 0; j < Reader.num_cities; j++) {
+
+                //look at cities not in path so far
+                if (!nn_path.contains(j)) {
+
+                    //update nearest new city if necessary
+                    if (Paths.get_distance(current_city, j) < min_dist) {
+                        min_city = j;
+                        min_dist = Paths.get_distance(current_city, j);
+                    }
+                }
+            }
+            nn_path.add(min_city);
+            nn_length += min_dist;
+            current_city = min_city;
+        }
+        int start_city = nn_path.get(0);
+        int last_city = nn_path.get(nn_path.size() - 1);
+
+        //after all cities have been visited, return to start city and add that distance
+        nn_path.add(start_city);
+        nn_length += Paths.get_distance(last_city, start_city);
+        Tour nn_tour = new Tour(nn_length, nn_path);
+        return nn_tour;
     }
 	
 }
