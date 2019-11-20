@@ -109,7 +109,7 @@ public class Runner {
                 problem_reader = new Reader(problem_file);
                 PATHS = new Paths(Reader.get_city_coords()); //maybe should be problem_reader.get_city_coords()?
                 Tour nn_tour = ACS.run_NNTour();
-                INITIAL_PHER = 3;
+                INITIAL_PHER = 1/(Reader.get_num_cities() * nn_tour.get_length());
                 PATHS.generate_init_pheremones();
                 
                 EAS.run_EAS();
