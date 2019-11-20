@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public  class Tour implements Cloneable{
+public  class Tour {
         public Double length;
         public ArrayList<Integer> cities_visited = new ArrayList<Integer>();
 
@@ -22,9 +22,11 @@ public  class Tour implements Cloneable{
         public ArrayList<Integer> get_cities_visited() {
             return cities_visited;
         }
+
         public int city_at_index(int index) {
             return cities_visited.get(index);
         }
+
         public int get_size() {
             return cities_visited.size();
         }
