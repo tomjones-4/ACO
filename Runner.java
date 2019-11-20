@@ -119,6 +119,7 @@ public class Runner {
 
                 //debugging statements below
                 System.out.println("Best result from nearest neighbor tour: " + nn_tour.get_length());
+                System.out.println("Number of cities in best tour: " + EAS.best_tour.get_cities_visited().size());
                 System.out.println("Number of cities in NN tour: " + nn_tour.get_cities_visited().size());
             }
         }
