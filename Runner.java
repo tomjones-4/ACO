@@ -6,6 +6,7 @@ public class Runner {
     
     public static String problem_file;
     public static Reader problem_reader;
+    public static int NUM_CITIES;
 
     public static String COLONY_TYPE;
     public static int NUM_ANTS;
@@ -81,6 +82,7 @@ public class Runner {
 
                 //read in problem file, so num cities and coordinates are established
                 problem_reader = new Reader(problem_file);
+                NUM_CITIES = Reader.num_cities;
 
                 //fill in distances and pheromone levels in paths
                 PATHS = new Paths(Reader.get_city_coords());
@@ -99,7 +101,7 @@ public class Runner {
 
                 //debugging statements below
                 System.out.println("Best result from nearest neighbor tour: " + nn_tour.get_length());
-                System.out.println("Number of cities in NN tour: " + nn_tour.get_cities_visited().size());
+                System.out.println("Number of cities in NN tour: " + nn_tour.get_size());
                 //debugging
             }
             else { //ie COLONY_TYPE equals EAS
@@ -124,8 +126,8 @@ public class Runner {
 
                 //debugging statements below
                 System.out.println("Best result from nearest neighbor tour: " + nn_tour.get_length());
-                System.out.println("Number of cities in best tour: " + EAS.best_tour.get_cities_visited().size());
-                System.out.println("Number of cities in NN tour: " + nn_tour.get_cities_visited().size());
+                System.out.println("Number of cities in best tour: " + EAS.best_tour.get_size());
+                System.out.println("Number of cities in NN tour: " + nn_tour.get_size());
             }
         }
     }

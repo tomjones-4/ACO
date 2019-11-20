@@ -13,6 +13,9 @@ public class EAS {
     public static int NUM_ANTS = Runner.NUM_ANTS;
     public static int NUM_ITS = Runner.NUM_ITS;
     public static Double best_tour_length = Double.MAX_VALUE;
+    //lines in between these comments are needed if Tom's version of pheromone updates is correct
+    public static ArrayList<Tour> iteration_tours = new ArrayList<Tour>();
+    //end
 
     public static void run_EAS() {
 
@@ -22,18 +25,28 @@ public class EAS {
         }
 
         for (int i = 0; i < Runner.NUM_ITS; i++) {
+            //lines in between these comments are needed if Tom's version of pheromone updates is correct
+            iteration_tours.clear();
+            //end
             for (int j = 0; j < Runner.NUM_ANTS; j++) {
                 Tour current_tour = ants.get(j).tour();
+                //lines in between these comments are needed if Tom's version of pheromone updates is correct
+                iteration_tours.add(current_tour);
+                //end
                 if (current_tour.get_length() < best_tour_length) {
                     System.out.println("Iteration: " + i + " Ant: " + j + " New best tour length: " + current_tour.get_length());                
                     best_tour = new Tour(current_tour.get_length(), current_tour.get_cities_visited());
                     best_tour_length = current_tour.get_length();
                 }
-                Paths.local_pheremone_update_EAS(current_tour);
+                Paths.local_pheremone_update_EAS(current_tour); //Will's line
             }
             System.out.println("Iteration " + i +  ": Best tour length so far: " + best_tour.get_length());
-            Paths.best_tour_pheremone_update_EAS(best_tour);
-            Paths.global_pheremone_update_EAS();
+            //lines in between these comments are needed if Tom's version of pheromone updates is correct
+            //Paths.global_pheromone_update_EAS_Tom();
+            //Paths.best_tour_pheremone_update_EAS_Tom(best_tour);
+            //end
+            Paths.best_tour_pheremone_update_EAS(best_tour); //Will's line
+            Paths.global_pheremone_update_EAS(); //Will's line
 
             reset_ant_paths();
         }

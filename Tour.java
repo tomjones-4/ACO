@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public  class Tour {
+public  class Tour{
         public Double length;
         public ArrayList<Integer> cities_visited = new ArrayList<Integer>();
 
@@ -23,6 +23,7 @@ public  class Tour {
             return cities_visited;
         }
 
+        //is this method ever used? I don't think it is
         public int city_at_index(int index) {
             return cities_visited.get(index);
         }
