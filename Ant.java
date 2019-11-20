@@ -105,7 +105,7 @@ public class Ant {
 				//System.out.println("p_choice[p_choice.length - 1]: " + p_choice[p_choice.length - 1]);
 				//System.out.println("p_choice[p_choice.length - 2]: " + p_choice[p_choice.length - 2]);
 				System.out.println("p_total: " + p_total);
-				//System.out.println("Length of path at this point: " + path.size() + "\n\n\n");
+				System.out.println("Length of path at this point: " + path.size() + "\n\n\n");
 			}
 		}
 
@@ -182,9 +182,9 @@ public class Ant {
 			//statement done^
 		}*/
 
-		if (denominator < 0.0000000001) { //debugging
+		/*if (denominator < 0.0000000001) { //debugging
 			System.out.println("\n\n\n\n###############About to divide by zero.##################\n\n\n");
-		}
+		}*/
 
 		for (int i = 0; i < Reader.num_cities; i++) {
 			p_vector[i] = numerators[i] / denominator;
