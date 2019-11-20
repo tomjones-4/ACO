@@ -106,6 +106,20 @@ public class Runner {
                 if (args.length > 8) {
                     DISP_INTERVAL = Integer.parseInt(args[8]);
                 }
+                problem_reader = new Reader(problem_file);
+                PATHS = new Paths(Reader.get_city_coords()); //maybe should be problem_reader.get_city_coords()?
+                Tour nn_tour = ACS.run_NNTour();
+                INITIAL_PHER = 3;
+                PATHS.generate_init_pheremones();
+                
+                EAS.run_EAS();
+                System.out.println("Best result from EAS: " + EAS.best_tour.get_length());
+                System.out.println("Best tour: " + EAS.best_tour.get_cities_visited());
+                System.out.println("Independent calc of best tour length: " + PATHS.calculate_distance_of_path(EAS.best_tour.get_cities_visited()));
+
+                //debugging statements below
+                System.out.println("Best result from nearest neighbor tour: " + nn_tour.get_length());
+                System.out.println("Number of cities in NN tour: " + nn_tour.get_cities_visited().size());
             }
         }
     }

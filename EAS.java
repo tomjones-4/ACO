@@ -25,9 +25,16 @@ public class EAS {
             for (int j = 0; j < Runner.NUM_ANTS; j++) {
                 Tour current_tour = ants.get(j).tour();
                 if (current_tour.get_length() < best_tour_length) {
-                    best_tour = current_tour;
+                    System.out.println("new best tour found!");
+                    System.out.println(current_tour.get_cities_visited());
+                    System.out.println(current_tour.get_length());
+                    best_tour = new Tour(current_tour.get_length(), current_tour.get_cities_visited());
+                    best_tour_length = current_tour.get_length();
                 }
+                Paths.local_pheremone_update_EAS(current_tour);
             }
+            Paths.best_tour_pheremone_update_EAS(best_tour);
+            Paths.global_pheremone_update_EAS();
         }
     }
 }
