@@ -1,10 +1,7 @@
-/*This class has two 2d arays, city_distances and pheremones. */
+/* This class has two 2d arrays, city_distances and pheremones. */
 import java.lang.Math;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-
-//import javafx.util.Pair;
 
 public class Paths {
 
@@ -12,6 +9,7 @@ public class Paths {
 	public static Double[][] city_distances;
 	public static Double[][] pheremones;
 
+	//constructor which initializes all distances between cities in city_distnaces
 	public Paths(ArrayList<Double[]> city_coords){
 		city_distances = new Double[city_coords.size()][city_coords.size()];
 		pheremones = new Double[city_coords.size()][city_coords.size()];
@@ -28,16 +26,12 @@ public class Paths {
 
 			}
 		}
-		//System.out.println(Arrays.deepToString(city_distances).replace("], ", "]\n"));
-		//System.exit(0);
-
-
-
 	}
 
+	//initialize pheromone levels on all paths
 	public void generate_init_pheremones(){
-		for (int i=0; i < city_distances.length; i++){
-			for (int j=0; j < city_distances.length; j ++){
+		for (int i=0; i < city_distances.length; i++) {
+			for (int j=0; j < city_distances.length; j ++) {
 				pheremones[i][j] = Runner.INITIAL_PHER;
 			}
 		}
@@ -75,18 +69,26 @@ public class Paths {
 		}
 	}
 
+	/*offline pheromone update: every leg gets updated,
+      legs in tour of best ant so far getpheromone levels increased*/
 	public static void offline_pheromone_update_ACS() {
 		for (int i = 0; i < Runner.problem_reader.city_coords.size(); i++) {
-			int i_index = ACS.best_tour.get_cities_visited().indexOf(i); //where is city i on the best tour
+
+			//locate city i's index in best_tour
+			int i_index = ACS.best_tour.get_cities_visited().indexOf(i);
 			for (int j = 0; j < Runner.problem_reader.city_coords.size(); j++) {
-				if (i != j) { //can't have pheremones leading from a city to itself
+
+				//can't have pheremones leading from a city to itself
+				if (i != j) {
 					double first = (1-Runner.EVAP_FACTOR) * pheremones[i][j];
-					double second = 0;
-					if (ACS.best_tour.get_cities_visited().get(i_index+1) == j) { 	/*Does city j come after city i on the best tour?
-						Note: there is no risk of an out of bounds exception because the last city is also the first city,
-						method indexOf(Object o) returns the first occurence.*/
-						second += Runner.EVAP_FACTOR * (1/ACS.best_tour.get_length()); //wearing.away * Δτ(r,s)
+					//double second = 0;
+
+					//if path (i, j) is in best tour, increase its pheromone level
+					if (ACS.best_tour.get_cities_visited().get(i_index+1) == j) {
+						second += Runner.EVAP_FACTOR * (1/ACS.best_tour.get_length());
 					}
+
+					//else, pheromone levels decrease for path
 					else {
 						second = 0;
 					}
@@ -96,19 +98,12 @@ public class Paths {
 		}
 	}
 
+	////local pheromone update after ant completes its tour: pheromone wears away on used legs
 	public static void local_pheromone_update_ACS(Tour tour) {
-		//System.out.println("Number of cities in tour: " + tour.get_cities_visited().size()); //debugging
-		if (tour.get_cities_visited().size() != city_distances.length + 1) {
-			System.out.println("Num cities in tour: " + tour.get_cities_visited().size() + ". Number expected: " + (city_distances.length + 1));
-			System.exit(0);
-		}
-		//debugging
 		for (int i = 0; i < tour.get_cities_visited().size() - 1; i++) {
 			int current = tour.get_cities_visited().get(i);
 			int next = tour.get_cities_visited().get(i+1);
-
 			pheremones[current][next] = (1-Runner.WEARING_AWAY) * pheremones[current][next] + Runner.WEARING_AWAY * Runner.INITIAL_PHER;
-
 		}
 	}
 
@@ -116,6 +111,7 @@ public class Paths {
 		return city_distances[city1][city2];
 	}
 
+	//CLEANUP: do we ever use this method?
 	public static void adjust_pheremone(int city1, int city2, Double new_value){
 		pheremones[city1][city2] = new_value;
 	}
@@ -124,6 +120,7 @@ public class Paths {
 		return pheremones[city1][city2];
 	}
 
+	//CLEANUP: do we ever use this method?
 	public Double calculate_distance_of_path(ArrayList<Integer> path) {
 		Double total_distance = 0.0;
 		for (int i = 0; i<path.size()-1;i++) {
@@ -133,12 +130,4 @@ public class Paths {
 		}
 		return total_distance;
 	}
-
-	//debugging
-	/*public static void main(String[] args){
-		String file = args[0];
-        Reader test = new Reader(file);
-        Paths path_test = new Paths(test.get_city_coords());
-	}*/
-
 }

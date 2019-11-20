@@ -37,7 +37,8 @@ public class ACS {
 
             }
 
-            //offline pheromone update: every leg in tour of best ant so far gets updated
+            /*offline pheromone update: every leg gets updated,
+            legs in tour of best ant so far getpheromone levels increased*/
             Paths.offline_pheromone_update_ACS();
 
             //reset all ants' paths
