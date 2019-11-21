@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-import java.util.Random; //this import is used for nearest neighbor tour (can maybe delete if we move nn_tour elsewhere)
+import java.util.Random;
 
 public class ACS {
 
@@ -48,7 +48,6 @@ public class ACS {
             //print update for end of iteration
             System.out.println("Iteration " + i +  ": Best tour length so far: " + best_tour.get_length());
         }
-
     }
 
     public static void reset_ant_paths() {
