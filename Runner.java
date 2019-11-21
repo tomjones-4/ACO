@@ -64,16 +64,17 @@ public class Runner {
             print_help();
 	    }
 	    else {
+            problem_file = args[0];
             problem_reader = new Reader(problem_file);
             NUM_CITIES = Reader.num_cities;
             PATHS = new Paths(Reader.get_city_coords());
-            problem_file = args[0];
             COLONY_TYPE = args[1];
             NUM_ANTS = Integer.parseInt(args[2]);
             NUM_ITS = Integer.parseInt(args[3]);
             PHER_POWER = Double.parseDouble(args[4]);
             HEUR_POWER = Double.parseDouble(args[5]);
             EVAP_FACTOR = Double.parseDouble(args[6]);
+            Tour nn_tour = run_NNTour();
 
             if (COLONY_TYPE.equals("ACS")){
                 WEARING_AWAY = Double.parseDouble(args[7]);
@@ -87,25 +88,15 @@ public class Runner {
                     DISP_INTERVAL = Integer.parseInt(args[10]);
                 }
 
-                //read in problem file, so num cities and coordinates are established
-                
-
-                //run nearest neighbor tour to be able to initialize pheromone levels in ACS
-                Tour nn_tour = run_NNTour();
-                
                 PATHS.generate_init_pheremones();
                 
                 ACS.run_ACS();
                 System.out.println("Best result from ACS: " + ACS.best_tour.get_length());
                 System.out.println("Best tour: " + ACS.best_tour.get_cities_visited());
-                //System.out.println("Independent calc of best tour length: " + PATHS.calculate_distance_of_path(ACS.best_tour.get_cities_visited())); //debugging
                 System.out.println("ACS.best_tour.length: " + ACS.best_tour.length);
-
-
-                //debugging statements below
                 System.out.println("Best result from nearest neighbor tour: " + nn_tour.get_length());
                 System.out.println("Number of cities in NN tour: " + nn_tour.get_size());
-                //debugging
+
             }
             else { //ie COLONY_TYPE equals EAS
                 ELITISM = Double.parseDouble(args[7]);
@@ -115,7 +106,6 @@ public class Runner {
 
 
                 //run nearest neighbor tour to be able to initialize pheromone levels in EAS
-                Tour nn_tour = run_NNTour();
                 INITIAL_PHER = 1/(Reader.get_num_cities() * nn_tour.get_length());
                 PATHS.generate_init_pheremones();
                 
