@@ -17,9 +17,6 @@ public class ACS {
             ants.add(ant);
         }
 
-        //set equal to max vax value, and first tour will become best tour
-        //Double best_tour_length = Double.MAX_VALUE;
-
         for (int i = 0; i < NUM_ITS; i++) {
             for (int j = 0; j < NUM_ANTS; j++) {
 

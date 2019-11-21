@@ -37,9 +37,7 @@ public class Paths {
 		}
 	}
 
-
 	public static void global_pheromone_update_EAS() {
-
 
 		//create 2d array for updates to each path between cities. values are initialized to 0.0
 		Double[][] pheromone_updates = new Double[Runner.NUM_CITIES][Runner.NUM_CITIES];

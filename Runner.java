@@ -95,30 +95,27 @@ public class Runner {
                 PATHS.generate_init_pheremones();
                 
                 ACS.run_ACS();
-                System.out.println("Best result from ACS: " + ACS.best_tour.get_length());
+                System.out.println("ACS.best_tour.length: " + ACS.best_tour.get_length());
                 System.out.println("Best tour: " + ACS.best_tour.get_cities_visited());
-                System.out.println("ACS.best_tour.length: " + ACS.best_tour.length);
                 System.out.println("Best result from nearest neighbor tour: " + nn_tour.get_length());
                 System.out.println("Number of cities in NN tour: " + nn_tour.get_size());
 
             }
-            else { //ie COLONY_TYPE equals EAS
+
+            //ie COLONY_TYPE equals EAS
+            else {
                 ELITISM = Double.parseDouble(args[7]);
                 if (args.length > 8) {
                     DISP_INTERVAL = Integer.parseInt(args[8]);
                 }
 
-
-                //run nearest neighbor tour to be able to initialize pheromone levels in EAS
                 INITIAL_PHER = 1/(Reader.get_num_cities() * nn_tour.get_length());
                 PATHS.generate_init_pheremones();
                 
                 EAS.run_EAS();
-                System.out.println("Best result from EAS: " + EAS.best_tour.get_length());
+                System.out.println("EAS.best_tour.length: " + EAS.best_tour.get_length());
                 System.out.println("Best tour: " + EAS.best_tour.get_cities_visited());
-
                 System.out.println("Best result from nearest neighbor tour: " + nn_tour.get_length());
-                System.out.println("Number of cities in best tour: " + EAS.best_tour.get_size());
                 System.out.println("Number of cities in NN tour: " + nn_tour.get_size());
             }
         }

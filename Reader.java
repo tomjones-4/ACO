@@ -57,8 +57,7 @@ public class Reader {
                         }
                     }
                 }
-            }
-            
+            }  
 		}
 		catch (FileNotFoundException e) {
 			e.printStackTrace();
