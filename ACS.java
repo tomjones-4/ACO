@@ -25,7 +25,7 @@ public class ACS {
 
                 //assign new best tour if necessary, print out update
                 if (tour.get_length() < best_tour_length) {
-                    System.out.println("\nIteration: " + i + " Ant: " + j + " New best tour length: " + tour.get_length() + "\n");                
+                    System.out.println("Iteration: " + i + " Ant: " + j + " New best tour length: " + tour.get_length());                
                     best_tour = new Tour(tour.get_length(), tour.get_cities_visited());
                     best_tour_length = tour.get_length();
                 }
@@ -37,7 +37,7 @@ public class ACS {
 
             /*offline pheromone update: every leg gets updated,
             legs in tour of best ant so far getpheromone levels increased*/
-            Paths.offline_pheromone_update_ACS();
+            Paths.offline_pheromone_update_ACS(best_tour);
 
             //reset all ants' paths
             reset_ant_paths();

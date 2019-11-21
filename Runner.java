@@ -110,6 +110,10 @@ public class Runner {
                 }
 
                 INITIAL_PHER = 1/(Reader.get_num_cities() * nn_tour.get_length());
+
+                //always choose probabilistically in EAS
+                BEST_LEG = 0.0;
+
                 PATHS.generate_init_pheremones();
                 
                 EAS.run_EAS();
