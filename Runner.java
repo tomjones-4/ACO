@@ -35,7 +35,7 @@ public class Runner {
 	    System.out.println("    heur_power      = weight placed on heuristic information (double)");
         System.out.println("    evap_factor     = amount of evaporation between iterations (double)");
         System.out.println("    wearing_away    = amount ants wear away legs they travel on (double)");
-        System.out.println("    initial_pher    = initial amount of pheromone on each path between cities (double");
+        System.out.println("    initial_pher    = initial amount of pheromone on each path between cities (double, OR def (string))");
 	    System.out.println("    best_leg        = probability that an ant will choose next leg from best tour (double)");
         System.out.println("    disp (optional) = display interval (int)");
         System.out.println();
@@ -49,7 +49,7 @@ public class Runner {
         System.out.println("    pher_power      = weight placed on pheremones (double)");
         System.out.println("    heur_power      = weight placed on heuristic information (double)");
         System.out.println("    evap_factor     = amount of evaporation between iterations (double)");
-        System.out.println("    elitism         = elitism factor");
+        System.out.println("    elitism         = elitism factor, number of ants is a good idea");
         System.out.println("    disp (optional) = display interval (int)");
         System.out.println();
 
@@ -77,7 +77,11 @@ public class Runner {
 
             if (COLONY_TYPE.equals("ACS")){
                 WEARING_AWAY = Double.parseDouble(args[7]);
-                INITIAL_PHER = Double.parseDouble(args[8]);
+                if (args[8].equals("def")) {
+                    INITIAL_PHER = 1/(Reader.get_num_cities() * nn_tour.get_length());
+                } else {
+                    INITIAL_PHER = Double.parseDouble(args[8]);
+                }
                 BEST_LEG = Double.parseDouble(args[9]);
                 if (args.length > 10) {
                     DISP_INTERVAL = Integer.parseInt(args[10]);
@@ -88,7 +92,7 @@ public class Runner {
 
                 //run nearest neighbor tour to be able to initialize pheromone levels in ACS
                 Tour nn_tour = run_NNTour();
-                INITIAL_PHER = 1/(Reader.get_num_cities() * nn_tour.get_length());
+                
                 PATHS.generate_init_pheremones();
                 
                 ACS.run_ACS();

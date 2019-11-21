@@ -38,21 +38,6 @@ public class Paths {
 	}
 
 
-	/* Tom's comments
-	   I'm not sure if there are any "local" pheromone updates in EAS the same way there are in ACS.
-	   From what I can tell from Wikipedia, there are the global updates where each leg is updated
-	   with pher = (1 - evap) * pher + sum(delta_pher), where delta_pher = 1/L_k if leg is in ant k's
-	   tour, where L_k is length of ant k's tour, and delta_pher = 0 if leg is not in ant k's tour. 
-	   This update takes place after the iteration, so it can be thought of as a global update,
-	   although it depends on each ant's tour. 
-	   
-	   Then, the best_tour pheromone update is, after every iteration, update each leg in the best
-	   tour as follows: pher = pher + elitism * 1/L_best, where L_best is length of best tour.
-	   
-	   Reference: https://en.wikipedia.org/wiki/Ant_colony_optimization_algorithms#Ant_Colony_System_(ACS) 
-	*/
-
-	//Tom's methods start
 
 	public static void global_pheromone_update_EAS_Tom() {
 
@@ -80,7 +65,6 @@ public class Paths {
 		}
 	}
 
-	//literally just copied Will's method because I think it's correct
 	//adds pheromones to all legs in best tour
 	public static void best_tour_pheremone_update_EAS_Tom(Tour best_tour) {
 		for (int i = 0; i < best_tour.get_size() - 1; i++) {
@@ -92,37 +76,7 @@ public class Paths {
 
 	//Tom's methods end
 
-	/*The following three methods are pheremone update methods for EAS*/
-	//Apply this after each ant completes a tour.
-	public static void local_pheremone_update_EAS(Tour tour) {
-		for (int i = 0; i < tour.get_size() - 1; i++) {
-			int current = tour.get_cities_visited().get(i);
-			int next = tour.get_cities_visited().get(i+1);
-			pheremones[current][next] += (1/tour.get_length());
-		}
-	}
-	//Apply this once (feeding in the best tour) after each iteration.
-	public static void best_tour_pheremone_update_EAS(Tour tour) {
-		for (int i = 0; i < tour.get_size() - 1; i++) {
-			int current = tour.get_cities_visited().get(i);
-			int next = tour.get_cities_visited().get(i+1);
-			pheremones[current][next] += Runner.ELITISM * (1/tour.get_length());
-		}
-	}
-	//Apply this at the end of each iteration
-	//WHAT does this method do?
-	public static void global_pheremone_update_EAS() {
-		for (int i = 0; i < Runner.problem_reader.city_coords.size(); i++) {
-			for (int j = 0; j < Runner.problem_reader.city_coords.size(); j++) {
-				if (i!=j) {
-					double first = (1-Runner.EVAP_FACTOR) * pheremones[i][j];
-				}
-				if (pheremones[i][j] < MIN_PHER) {
-					pheremones[i][j] = MIN_PHER;
-				}
-			}
-		}
-	}
+	
 
 	/*offline pheromone update: every leg gets updated,
       legs in tour of best ant so far getpheromone levels increased*/
@@ -162,10 +116,7 @@ public class Paths {
 		return city_distances[city1][city2];
 	}
 
-	//CLEANUP: do we ever use this method?
-	public static void adjust_pheremone(int city1, int city2, Double new_value){
-		pheremones[city1][city2] = new_value;
-	}
+
 
 	public static Double get_pheremone(int city1, int city2){
 		return pheremones[city1][city2];

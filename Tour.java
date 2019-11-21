@@ -23,11 +23,6 @@ public  class Tour{
             return cities_visited;
         }
 
-        //is this method ever used? I don't think it is
-        public int city_at_index(int index) {
-            return cities_visited.get(index);
-        }
-
         public int get_size() {
             return cities_visited.size();
         }
