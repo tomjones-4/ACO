@@ -1,7 +1,6 @@
 import java.util.*;
 import java.io.*;
 
-
 public class EAS {
     public static Tour best_tour;
 	public static ArrayList<Ant> ants = new ArrayList<Ant>();

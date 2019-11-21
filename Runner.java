@@ -64,7 +64,9 @@ public class Runner {
             print_help();
 	    }
 	    else {
+            //read in problem file, so num cities and coordinates are established
             problem_reader = new Reader(problem_file);
+            
             NUM_CITIES = Reader.num_cities;
             PATHS = new Paths(Reader.get_city_coords());
             problem_file = args[0];
@@ -86,8 +88,6 @@ public class Runner {
                 if (args.length > 10) {
                     DISP_INTERVAL = Integer.parseInt(args[10]);
                 }
-
-                //read in problem file, so num cities and coordinates are established
                 
 
                 //run nearest neighbor tour to be able to initialize pheromone levels in ACS
@@ -98,7 +98,6 @@ public class Runner {
                 ACS.run_ACS();
                 System.out.println("Best result from ACS: " + ACS.best_tour.get_length());
                 System.out.println("Best tour: " + ACS.best_tour.get_cities_visited());
-                //System.out.println("Independent calc of best tour length: " + PATHS.calculate_distance_of_path(ACS.best_tour.get_cities_visited())); //debugging
                 System.out.println("ACS.best_tour.length: " + ACS.best_tour.length);
 
 
@@ -122,9 +121,7 @@ public class Runner {
                 EAS.run_EAS();
                 System.out.println("Best result from EAS: " + EAS.best_tour.get_length());
                 System.out.println("Best tour: " + EAS.best_tour.get_cities_visited());
-                System.out.println("Independent calc of best tour length: " + PATHS.calculate_distance_of_path(EAS.best_tour.get_cities_visited()));
 
-                //debugging statements below
                 System.out.println("Best result from nearest neighbor tour: " + nn_tour.get_length());
                 System.out.println("Number of cities in best tour: " + EAS.best_tour.get_size());
                 System.out.println("Number of cities in NN tour: " + nn_tour.get_size());
