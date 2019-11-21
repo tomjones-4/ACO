@@ -38,8 +38,8 @@ public class Paths {
 	}
 
 
+	public static void global_pheromone_update_EAS() {
 
-	public static void global_pheromone_update_EAS_Tom() {
 
 		//create 2d array for updates to each path between cities. values are initialized to 0.0
 		Double[][] pheromone_updates = new Double[Runner.NUM_CITIES][Runner.NUM_CITIES];
@@ -66,17 +66,13 @@ public class Paths {
 	}
 
 	//adds pheromones to all legs in best tour
-	public static void best_tour_pheremone_update_EAS_Tom(Tour best_tour) {
+	public static void best_tour_pheremone_update_EAS(Tour best_tour) {
 		for (int i = 0; i < best_tour.get_size() - 1; i++) {
 			int current = best_tour.get_cities_visited().get(i);
 			int next = best_tour.get_cities_visited().get(i+1);
 			pheremones[current][next] += Runner.ELITISM * (1 / best_tour.get_length());
 		}
 	}
-
-	//Tom's methods end
-
-	
 
 	/*offline pheromone update: every leg gets updated,
       legs in tour of best ant so far getpheromone levels increased*/

@@ -106,7 +106,7 @@ public class Ant {
         path.add(current_city);
     }
 
-	//creates probability vector, where p_vector[i] contains  the probability that city i added to the path
+	//creates probability vector, where p_vector[i] contains the probability that city i added to the path
 	private double[] create_p_vector() {
 		double [] numerators = new double[Reader.num_cities];
 		double denominator = 0;
@@ -134,7 +134,6 @@ public class Ant {
 		for (int i = 0; i < Reader.num_cities; i++) {
 			p_vector[i] = numerators[i] / denominator;
 		}
-
 		return p_vector;
 	}
 
