@@ -64,6 +64,9 @@ public class Runner {
             print_help();
 	    }
 	    else {
+            problem_reader = new Reader(problem_file);
+            NUM_CITIES = Reader.num_cities;
+            PATHS = new Paths(Reader.get_city_coords());
             problem_file = args[0];
             COLONY_TYPE = args[1];
             NUM_ANTS = Integer.parseInt(args[2]);
@@ -81,11 +84,7 @@ public class Runner {
                 }
 
                 //read in problem file, so num cities and coordinates are established
-                problem_reader = new Reader(problem_file);
-                NUM_CITIES = Reader.num_cities;
-
-                //fill in distances and pheromone levels in paths
-                PATHS = new Paths(Reader.get_city_coords());
+                
 
                 //run nearest neighbor tour to be able to initialize pheromone levels in ACS
                 Tour nn_tour = run_NNTour();
@@ -109,11 +108,7 @@ public class Runner {
                 if (args.length > 8) {
                     DISP_INTERVAL = Integer.parseInt(args[8]);
                 }
-                problem_reader = new Reader(problem_file);
-                NUM_CITIES = Reader.num_cities;
 
-                //fill in distances and pheromone levels in paths
-                PATHS = new Paths(Reader.get_city_coords());
 
                 //run nearest neighbor tour to be able to initialize pheromone levels in EAS
                 Tour nn_tour = run_NNTour();
