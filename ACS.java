@@ -44,6 +44,9 @@ public class ACS {
 
             //print update for end of iteration
             System.out.println("Iteration " + i +  ": Best tour length so far: " + best_tour.get_length());
+            if (best_tour_length <= Runner.OPTIMAL * 1.1) {
+                break;
+            }
         }
     }
 

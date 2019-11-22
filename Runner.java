@@ -19,6 +19,7 @@ public class Runner {
     public static double INITIAL_PHER;
     public static double BEST_LEG;
     public static double DISP_INTERVAL;
+    public static double OPTIMAL;
 
     public static double ELITISM;
     public static Paths PATHS;
@@ -58,6 +59,8 @@ public class Runner {
     }
     public static void main (String[] args) {
 
+        long start = System.currentTimeMillis();
+
 	    /*The following block of code assigns the users command line inputs to the appropriate
         constants.  */
 	    if (args.length != 8 && args.length != 9 && args.length != 10 && args.length != 11) {
@@ -80,6 +83,13 @@ public class Runner {
 
             //run nearest neighbor tour to be able to initialize pheromone levels in ACS and EAS
             Tour nn_tour = run_NNTour();
+            if (problem_file.equals("/Users/williamdonaldson/Desktop/Bowdoin/NIC/ACO/ALL_tsp/eil51.tsp")) {
+                OPTIMAL = 426;
+            } else if (problem_file.equals("/Users/williamdonaldson/Desktop/Bowdoin/NIC/ACO/ALL_tsp/ch150.tsp")){
+                OPTIMAL = 6528;
+            } else if (problem_file.equals("/Users/williamdonaldson/Desktop/Bowdoin/NIC/ACO/ALL_tsp/pcb442.tsp")) {
+                OPTIMAL = 50788;
+            }
 
             if (COLONY_TYPE.equals("ACS")){
                 WEARING_AWAY = Double.parseDouble(args[7]);
@@ -99,6 +109,8 @@ public class Runner {
                 System.out.println("Best tour: " + ACS.best_tour.get_cities_visited());
                 System.out.println("Best result from nearest neighbor tour: " + nn_tour.get_length());
                 System.out.println("Number of cities in NN tour: " + nn_tour.get_size());
+                long end = System.currentTimeMillis();
+                System.out.println("Took " + ((end - start) / 100 + " 1/10s of seconds"));
 
             }
 
@@ -121,6 +133,9 @@ public class Runner {
                 System.out.println("Best tour: " + EAS.best_tour.get_cities_visited());
                 System.out.println("Best result from nearest neighbor tour: " + nn_tour.get_length());
                 System.out.println("Number of cities in NN tour: " + nn_tour.get_size());
+                long end = System.currentTimeMillis();
+                System.out.println("Took " + ((end - start) / 100 + " 1/10s of seconds"));
+
             }
         }
     }

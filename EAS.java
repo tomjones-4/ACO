@@ -35,7 +35,9 @@ public class EAS {
                 }
             }
             System.out.println("Iteration " + i +  ": Best tour length so far: " + best_tour.get_length());
-
+            if (best_tour_length <= Runner.OPTIMAL * 1.1) {
+                break;
+            }
             //update pheromone levels on all paths
             Paths.global_pheromone_update_EAS();
 
