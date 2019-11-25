@@ -33,18 +33,23 @@ public class EAS {
                     best_tour = new Tour(current_tour.get_length(), current_tour.get_cities_visited());
                     best_tour_length = current_tour.get_length();
                 }
+
+                //check 10 minute time limit after each ant completes tour
+                long end = System.currentTimeMillis();
+                if ((end-Runner.START) / 100 > 6000) {
+                    System.out.println("10 minute time limit reached");
+                    i = NUM_ITS;
+                    break;
+
             }
             /* Testing statements
             if (best_tour_length <= Runner.OPTIMAL * 1.1) {
                 break;
             }*/
-            long end = System.currentTimeMillis();
-            System.out.println(end - Runner.START);
+
+            //print update for end of iteration
             System.out.println("Iteration " + i +  ": Best tour length so far: " + best_tour.get_length());
-            if ((end-Runner.START) / 100 > 3000) {
-                System.out.println("overkill");
-                break;
-            }
+
             //update pheromone levels on all paths
             Paths.global_pheromone_update_EAS();
 

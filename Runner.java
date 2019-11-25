@@ -1,3 +1,5 @@
+//java Runner ALL_tsp/d2103.tsp ACS 15 100 1 1 0.1 0.1 def 0.9
+
 /* Runner class which takes in input from user and initializes values and calls ACS
    or EAS, depending on which type of ACO algorithm was specified by user. */
 import java.util.*;
@@ -113,7 +115,7 @@ public class Runner {
                 System.out.println("Number of cities in NN tour: " + nn_tour.get_size());
                 long end = System.currentTimeMillis();
                 System.out.println("Took " + ((end - START) / 100 + " 1/10s of seconds"));
-                System.out.println("perecentage of optimal = " + ACS.best_tour.get_length() / OPTIMAL);
+                //System.out.println("perecentage of optimal = " + ACS.best_tour.get_length() / OPTIMAL);
 
             }
 
@@ -138,7 +140,7 @@ public class Runner {
                 System.out.println("Number of cities in NN tour: " + nn_tour.get_size());
                 long end = System.currentTimeMillis();
                 System.out.println("Took " + ((end - START) / 100 + " 1/10s of seconds"));
-                System.out.println("perecentage of optimal = " + EAS.best_tour.get_length() / OPTIMAL);
+                //System.out.println("perecentage of optimal = " + EAS.best_tour.get_length() / OPTIMAL);
 
             }
         }
