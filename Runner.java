@@ -111,9 +111,9 @@ public class Runner {
                 
                 ACS.run_ACS();
                 System.out.println("ACS.best_tour.length: " + ACS.best_tour.get_length());
-                System.out.println("Best tour: " + ACS.best_tour.get_cities_visited());
+                //System.out.println("Best tour: " + ACS.best_tour.get_cities_visited());
                 System.out.println("Best result from nearest neighbor tour: " + nn_tour.get_length());
-                System.out.println("Number of cities in NN tour: " + nn_tour.get_size());
+                //System.out.println("Number of cities in NN tour: " + nn_tour.get_size());
                 long end = System.currentTimeMillis();
                 System.out.println("Took " + ((end - START) / 100 + " 1/10s of seconds"));
                 //System.out.println("perecentage of optimal = " + ACS.best_tour.get_length() / OPTIMAL);
@@ -136,9 +136,9 @@ public class Runner {
                 
                 EAS.run_EAS();
                 System.out.println("EAS.best_tour.length: " + EAS.best_tour.get_length());
-                System.out.println("Best tour: " + EAS.best_tour.get_cities_visited());
+                //System.out.println("Best tour: " + EAS.best_tour.get_cities_visited());
                 System.out.println("Best result from nearest neighbor tour: " + nn_tour.get_length());
-                System.out.println("Number of cities in NN tour: " + nn_tour.get_size());
+                //System.out.println("Number of cities in NN tour: " + nn_tour.get_size());
                 long end = System.currentTimeMillis();
                 System.out.println("Took " + ((end - START) / 100 + " 1/10s of seconds"));
                 //System.out.println("perecentage of optimal = " + EAS.best_tour.get_length() / OPTIMAL);
