@@ -1,4 +1,5 @@
 //java Runner ALL_tsp/d2103.tsp ACS 15 100 1 1 0.1 0.1 def 0.9
+//java Runner ALL_tsp/d2103.tsp EAS 15 100 1 1 0.1 15
 
 /* Runner class which takes in input from user and initializes values and calls ACS
    or EAS, depending on which type of ACO algorithm was specified by user. */
