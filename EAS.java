@@ -40,6 +40,7 @@ public class EAS {
                     System.out.println("10 minute time limit reached");
                     i = NUM_ITS;
                     break;
+                }
 
             }
             /* Testing statements

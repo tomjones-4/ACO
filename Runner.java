@@ -63,7 +63,7 @@ public class Runner {
     public static void main (String[] args) {
 
         START = System.currentTimeMillis();
-        System.out.println("Start Runner: " + START);
+        //System.out.println("Start Runner: " + START);
 
 	    /*The following block of code assigns the users command line inputs to the appropriate
         constants.  */
