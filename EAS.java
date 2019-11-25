@@ -34,8 +34,15 @@ public class EAS {
                     best_tour_length = current_tour.get_length();
                 }
             }
-            System.out.println("Iteration " + i +  ": Best tour length so far: " + best_tour.get_length());
+            /* Testing statements
             if (best_tour_length <= Runner.OPTIMAL * 1.1) {
+                break;
+            }*/
+            long end = System.currentTimeMillis();
+            System.out.println(end - Runner.START);
+            System.out.println("Iteration " + i +  ": Best tour length so far: " + best_tour.get_length());
+            if ((end-Runner.START) / 100 > 3000) {
+                System.out.println("overkill");
                 break;
             }
             //update pheromone levels on all paths
@@ -46,6 +53,7 @@ public class EAS {
 
             reset_ant_paths();
         }
+        
     }
 
     public static void reset_ant_paths() {

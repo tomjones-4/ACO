@@ -23,6 +23,7 @@ public class Runner {
 
     public static double ELITISM;
     public static Paths PATHS;
+    public static long START;
 
     private static void print_help () {
         System.out.println();
@@ -59,7 +60,8 @@ public class Runner {
     }
     public static void main (String[] args) {
 
-        long start = System.currentTimeMillis();
+        START = System.currentTimeMillis();
+        System.out.println("Start Runner: " + START);
 
 	    /*The following block of code assigns the users command line inputs to the appropriate
         constants.  */
@@ -110,7 +112,8 @@ public class Runner {
                 System.out.println("Best result from nearest neighbor tour: " + nn_tour.get_length());
                 System.out.println("Number of cities in NN tour: " + nn_tour.get_size());
                 long end = System.currentTimeMillis();
-                System.out.println("Took " + ((end - start) / 100 + " 1/10s of seconds"));
+                System.out.println("Took " + ((end - START) / 100 + " 1/10s of seconds"));
+                System.out.println("perecentage of optimal = " + ACS.best_tour.get_length() / OPTIMAL);
 
             }
 
@@ -134,7 +137,8 @@ public class Runner {
                 System.out.println("Best result from nearest neighbor tour: " + nn_tour.get_length());
                 System.out.println("Number of cities in NN tour: " + nn_tour.get_size());
                 long end = System.currentTimeMillis();
-                System.out.println("Took " + ((end - start) / 100 + " 1/10s of seconds"));
+                System.out.println("Took " + ((end - START) / 100 + " 1/10s of seconds"));
+                System.out.println("perecentage of optimal = " + EAS.best_tour.get_length() / OPTIMAL);
 
             }
         }
