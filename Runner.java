@@ -1,5 +1,5 @@
 //java Runner ALL_tsp/fnl4461.tsp ACS 15 100 1 1 0.1 0.1 def 0.9
-//java Runner ALL_tsp/pcb3038.tsp EAS 15 100 1 1 0.1 15
+//java Runner ALL_tsp/fnl4461.tsp EAS 15 100 1 1 0.1 15
 
 /* Runner class which takes in input from user and initializes values and calls ACS
    or EAS, depending on which type of ACO algorithm was specified by user. */
