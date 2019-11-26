@@ -33,20 +33,7 @@ public class EAS {
                     best_tour = new Tour(current_tour.get_length(), current_tour.get_cities_visited());
                     best_tour_length = current_tour.get_length();
                 }
-
-                //check 10 minute time limit after each ant completes tour
-                long end = System.currentTimeMillis();
-                if ((end-Runner.START) / 100 > 6000) {
-                    System.out.println("10 minute time limit reached");
-                    i = NUM_ITS;
-                    break;
-                }
-
             }
-            /* Testing statements
-            if (best_tour_length <= Runner.OPTIMAL * 1.1) {
-                break;
-            }*/
 
             //print update for end of iteration
             System.out.println("Iteration " + i +  ": Best tour length so far: " + best_tour.get_length());
@@ -58,8 +45,14 @@ public class EAS {
             Paths.best_tour_pheremone_update_EAS(best_tour);
 
             reset_ant_paths();
+
+            //check 10 minute time limit after each iteration
+            long end = System.currentTimeMillis();
+            if ((end-Runner.START) / 100 > 6000) {
+                System.out.println("10 minute time limit reached");
+                break;
+            }
         }
-        
     }
 
     public static void reset_ant_paths() {

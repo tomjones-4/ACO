@@ -32,16 +32,10 @@ public class ACS {
                 
                 //local pheromone update after ant completes its tour
                 Paths.local_pheromone_update_ACS(tour);
-
-                //check 10 minute time limit after each ant completes tour
-                long end = System.currentTimeMillis();
-                if ((end-Runner.START) / 100 > 6000) {
-                    System.out.println("10 minute time limit reached");
-                    i = NUM_ITS;
-                    break;
             }
 
-            }
+            //print update for end of iteration
+            System.out.println("Iteration " + i +  ": Best tour length so far: " + best_tour.get_length());
 
             /*offline pheromone update: every leg gets updated,
             legs in tour of best ant so far getpheromone levels increased*/
@@ -50,15 +44,12 @@ public class ACS {
             //reset all ants' paths
             reset_ant_paths();
 
-            //print update for end of iteration
-            System.out.println("Iteration " + i +  ": Best tour length so far: " + best_tour.get_length());
-
-            /*Testing statements
-            if (best_tour_length <= Runner.OPTIMAL * 1.2) {
+            //check 10 minute time limit after each iteration
+            long end = System.currentTimeMillis();
+            if ((end-Runner.START) / 100 > 6000) {
+                System.out.println("10 minute time limit reached");
                 break;
             }
-            */
-            
         }
     }
 

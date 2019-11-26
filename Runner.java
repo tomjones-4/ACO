@@ -1,6 +1,3 @@
-//java Runner ALL_tsp/d2103.tsp ACS 15 100 1 1 0.1 0.1 def 0.9
-//java Runner ALL_tsp/d2103.tsp EAS 15 100 1 1 0.1 15
-
 /* Runner class which takes in input from user and initializes values and calls ACS
    or EAS, depending on which type of ACO algorithm was specified by user. */
 import java.util.*;
@@ -42,7 +39,6 @@ public class Runner {
         System.out.println("    wearing_away    = amount ants wear away legs they travel on (double)");
         System.out.println("    initial_pher    = initial amount of pheromone on each path between cities (double, OR def (string))");
 	    System.out.println("    best_leg        = probability that an ant will choose next leg from best tour (double)");
-        System.out.println("    disp (optional) = display interval (int)");
         System.out.println();
 
         System.out.println("If running Elitist Ant System:");
@@ -55,7 +51,6 @@ public class Runner {
         System.out.println("    heur_power      = weight placed on heuristic information (double)");
         System.out.println("    evap_factor     = amount of evaporation between iterations (double)");
         System.out.println("    elitism         = elitism factor, number of ants is a good idea");
-        System.out.println("    disp (optional) = display interval (int)");
         System.out.println();
 
         //prevent the program from continuing without the correct inputs
@@ -64,11 +59,10 @@ public class Runner {
     public static void main (String[] args) {
 
         START = System.currentTimeMillis();
-        //System.out.println("Start Runner: " + START);
 
 	    /*The following block of code assigns the users command line inputs to the appropriate
         constants.  */
-	    if (args.length != 8 && args.length != 9 && args.length != 10 && args.length != 11) {
+        if (args.length != 8 && args.length != 10) {
             print_help();
 	    }
 	    else {
@@ -88,15 +82,8 @@ public class Runner {
 
             //run nearest neighbor tour to be able to initialize pheromone levels in ACS and EAS
             Tour nn_tour = run_NNTour();
-            if (problem_file.equals("/Users/williamdonaldson/Desktop/Bowdoin/NIC/ACO/ALL_tsp/eil51.tsp")) {
-                OPTIMAL = 426;
-            } else if (problem_file.equals("/Users/williamdonaldson/Desktop/Bowdoin/NIC/ACO/ALL_tsp/ch150.tsp")){
-                OPTIMAL = 6528;
-            } else if (problem_file.equals("/Users/williamdonaldson/Desktop/Bowdoin/NIC/ACO/ALL_tsp/pcb442.tsp")) {
-                OPTIMAL = 50788;
-            }
 
-            if (COLONY_TYPE.equals("ACS")){
+            if (COLONY_TYPE.equals("ACS")) {
                 WEARING_AWAY = Double.parseDouble(args[7]);
                 if (args[8].equals("def")) {
                     INITIAL_PHER = 1/(Reader.get_num_cities() * nn_tour.get_length());
@@ -104,29 +91,18 @@ public class Runner {
                     INITIAL_PHER = Double.parseDouble(args[8]);
                 }
                 BEST_LEG = Double.parseDouble(args[9]);
-                if (args.length > 10) {
-                    DISP_INTERVAL = Integer.parseInt(args[10]);
-                }
                 PATHS.generate_init_pheremones();
                 
                 ACS.run_ACS();
                 System.out.println("ACS.best_tour.length: " + ACS.best_tour.get_length());
-                //System.out.println("Best tour: " + ACS.best_tour.get_cities_visited());
-                System.out.println("Best result from nearest neighbor tour: " + nn_tour.get_length());
-                //System.out.println("Number of cities in NN tour: " + nn_tour.get_size());
+                System.out.println("Best tour: " + ACS.best_tour.get_cities_visited());
                 long end = System.currentTimeMillis();
                 System.out.println("Took " + ((end - START) / 100 + " 1/10s of seconds"));
-                //System.out.println("perecentage of optimal = " + ACS.best_tour.get_length() / OPTIMAL);
-
             }
 
             //ie COLONY_TYPE equals EAS
             else {
                 ELITISM = Double.parseDouble(args[7]);
-                if (args.length > 8) {
-                    DISP_INTERVAL = Integer.parseInt(args[8]);
-                }
-
                 INITIAL_PHER = 1/(Reader.get_num_cities() * nn_tour.get_length());
 
                 //always choose probabilistically in EAS
@@ -136,12 +112,9 @@ public class Runner {
                 
                 EAS.run_EAS();
                 System.out.println("EAS.best_tour.length: " + EAS.best_tour.get_length());
-                //System.out.println("Best tour: " + EAS.best_tour.get_cities_visited());
-                System.out.println("Best result from nearest neighbor tour: " + nn_tour.get_length());
-                //System.out.println("Number of cities in NN tour: " + nn_tour.get_size());
+                System.out.println("Best tour: " + EAS.best_tour.get_cities_visited());
                 long end = System.currentTimeMillis();
                 System.out.println("Took " + ((end - START) / 100 + " 1/10s of seconds"));
-                //System.out.println("perecentage of optimal = " + EAS.best_tour.get_length() / OPTIMAL);
 
             }
         }
