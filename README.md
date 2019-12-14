@@ -6,7 +6,7 @@ For ACS, the user specifies 10 arguments via the command line. The user chooses 
 
 A sample command line for running ACS could look like: java Runner ALL_tsp/d2103.tsp ACS 20 100 1 5 0.1 0.1 def 0.9
 
-For ACS, the user specifies 8 arguments via the command line. The user chooses (1) the problem to run the algorithm on; (2) the algorithm; (3) the number of ants; (4) the number of iterations; (5) the pheromone power; (6) the heuristic power; (7) the evaporation factor; and (8) the elitism factor.
+For EAS, the user specifies 8 arguments via the command line. The user chooses (1) the problem to run the algorithm on; (2) the algorithm; (3) the number of ants; (4) the number of iterations; (5) the pheromone power; (6) the heuristic power; (7) the evaporation factor; and (8) the elitism factor.
 
 A sample command line for running EAS could look like: java Runner ALL_tsp/d2103.tsp EAS 20 100 1 5 0.1 20
 
